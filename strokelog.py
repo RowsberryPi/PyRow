@@ -6,16 +6,16 @@
 import logging
 import time
 
-from . import pyrow
+from pyrow.performance_monitor import PerformanceMonitor
 
 if __name__ == '__main__':
 
     # Connecting to erg
-    ergs = list(pyrow.find())
+    ergs = list(PerformanceMonitor.find())
     if len(ergs) == 0:
         exit("No ergs found.")
 
-    erg = pyrow.pyrow(ergs[0])
+    erg = PerformanceMonitor(ergs[0])
     logging.info("Connected to erg")
 
     # Open and prepare file

@@ -5,7 +5,6 @@ tests.PyRow.Concept2.ResponseTests
 import unittest
 
 import mock
-from Concept2.Response import Response
 
 
 class ResponseTests(unittest.TestCase):
@@ -19,7 +18,7 @@ class ResponseTests(unittest.TestCase):
         :return:
         """
         results = mock.Mock()
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_raw(),
@@ -38,7 +37,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_time(),
@@ -46,7 +45,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for None
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_time(),
@@ -65,7 +64,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_distance(),
@@ -73,7 +72,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_distance(),
@@ -91,7 +90,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_pace(),
@@ -99,7 +98,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_pace(),
@@ -117,7 +116,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_pace_500(),
@@ -125,7 +124,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_pace_500(),
@@ -143,7 +142,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_calories(),
@@ -151,7 +150,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_calories(),
@@ -169,7 +168,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_stroke_state(),
@@ -177,7 +176,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_stroke_state(),
@@ -195,7 +194,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_stroke_state_message(),
@@ -203,7 +202,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_stroke_state_message(),
@@ -221,7 +220,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_status(),
@@ -234,7 +233,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_status(),
@@ -242,7 +241,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_status(),
@@ -260,7 +259,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_status_message(),
@@ -268,7 +267,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_status_message(),
@@ -286,7 +285,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_spm(),
@@ -294,7 +293,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_spm(),
@@ -312,7 +311,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_power(),
@@ -320,7 +319,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_power(),
@@ -338,7 +337,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_heartrate(),
@@ -346,7 +345,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_heartrate(),
@@ -367,7 +366,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_force_plot(),
@@ -375,7 +374,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_force_plot(),
@@ -394,7 +393,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_force_plot_strokestate(),
@@ -402,7 +401,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_force_plot_strokestate(),
@@ -420,7 +419,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_user_id(),
@@ -428,7 +427,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_user_id(),
@@ -446,7 +445,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_workout_type(),
@@ -454,7 +453,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_workout_type(),
@@ -472,7 +471,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_workout_state(),
@@ -480,7 +479,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_workout_state(),
@@ -498,7 +497,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_workout_int_type(),
@@ -506,7 +505,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_workout_int_type(),
@@ -524,7 +523,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_workout_int_count(),
@@ -532,7 +531,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_workout_int_count(),
@@ -559,7 +558,7 @@ class ResponseTests(unittest.TestCase):
         """
         results = self.__get_version()
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_erg_mfgid(),
@@ -567,7 +566,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_erg_mfgid(),
@@ -581,7 +580,7 @@ class ResponseTests(unittest.TestCase):
         """
         results = self.__get_version()
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_erg_cid(),
@@ -589,7 +588,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_erg_cid(),
@@ -603,7 +602,7 @@ class ResponseTests(unittest.TestCase):
         """
         results = self.__get_version()
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_erg_model(),
@@ -611,7 +610,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_erg_model(),
@@ -625,7 +624,7 @@ class ResponseTests(unittest.TestCase):
         """
         results = self.__get_version()
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_erg_hwversion(),
@@ -633,7 +632,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_erg_hwversion(),
@@ -647,7 +646,7 @@ class ResponseTests(unittest.TestCase):
         """
         results = self.__get_version()
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_erg_swversion(),
@@ -655,7 +654,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_erg_swversion(),
@@ -673,7 +672,7 @@ class ResponseTests(unittest.TestCase):
             ]
         }
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_erg_serial(),
@@ -681,7 +680,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_erg_serial(),
@@ -706,7 +705,7 @@ class ResponseTests(unittest.TestCase):
         """
         results = self.__get_caps()
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_erg_maxrx(),
@@ -714,7 +713,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_erg_maxrx(),
@@ -728,7 +727,7 @@ class ResponseTests(unittest.TestCase):
         """
         results = self.__get_caps()
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_erg_maxtx(),
@@ -736,7 +735,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_erg_maxtx(),
@@ -750,7 +749,7 @@ class ResponseTests(unittest.TestCase):
         """
         results = self.__get_caps()
 
-        response = Response(results)
+        response = response(results)
 
         self.assertEqual(
             response.get_erg_mininterframe(),
@@ -758,7 +757,7 @@ class ResponseTests(unittest.TestCase):
         )
 
         # Test for none
-        response = Response({})
+        response = response({})
 
         self.assertEqual(
             response.get_erg_mininterframe(),

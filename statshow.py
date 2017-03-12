@@ -5,14 +5,14 @@
 import logging
 import time
 
-from . import pyrow
+from pyrow.performance_monitor import PerformanceMonitor
 
 if __name__ == '__main__':
     # Connecting to erg
-    ergs = list(pyrow.find())
+    ergs = list(PerformanceMonitor.find())
     if len(ergs) == 0:
         exit("No ergs found.")
-    erg = pyrow.pyrow(ergs[0])
+    erg = PerformanceMonitor(ergs[0])
     logging.info("Connected to erg.")
 
     # Create a dictionary of the different status states
@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
     # Inf loop
     while 1:
-        results = erg.send(command)
+        results = erg.send_commands(command)
         if cstate != (results['CSAFE_GETSTATUS_CMD'][0] & 0xF):
             cstate = results['CSAFE_GETSTATUS_CMD'][0] & 0xF
             logging.debug("State %s: %s", str(cstate), state[cstate])

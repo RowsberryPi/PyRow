@@ -11,9 +11,9 @@ from threading import Lock
 import usb.util
 from usb import USBError
 
-from Concept2.CsafeCmd import CsafeCmd
-from Concept2.Exception.BadStateException import BadStateException
-from Concept2.Response import Response
+from pyrow.csafe_cmd import CsafeCmd
+from pyrow.exceptions import BadStateException
+from pyrow.response import Response
 
 
 class PerformanceMonitor(object):

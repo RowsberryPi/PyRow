@@ -1,8 +1,3 @@
-"""
-PyRow.Concept2.Exception.BadStateException
-"""
-
-
 class BadStateException(Exception):
     """
     BadStateException

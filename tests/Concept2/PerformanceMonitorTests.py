@@ -6,9 +6,9 @@ import unittest
 
 import mock
 
-from Concept2.Exception.BadStateException import BadStateException
-from Concept2.PerformanceMonitor import PerformanceMonitor
-from Concept2.Response import Response
+from pyrow.exceptions import BadStateException
+from pyrow.performance_monitor import PerformanceMonitor
+from pyrow.response import Response
 from tests.Concept2.CsafeCmd import CsafeCmd
 from tests.Concept2.Device import PM3
 
