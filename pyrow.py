@@ -1,4 +1,5 @@
 import datetime
+import logging
 import sys
 import time
 
@@ -32,11 +33,9 @@ class pyrow(object):
                 if erg.is_kernel_driver_active(INTERFACE):
                     erg.detach_kernel_driver(INTERFACE)
                 else:
-                    print
-                    "DEBUG: usb kernel driver not on " + sys.platform
+                    logging.debug("USB Kernel driver not on %s", sys.platform)
             except:
-                print
-                "EXCEPTION"
+                logging.exception("An exception occurred")
 
         # Claim interface (Needs Testing To See If Necessary)
         usb.util.claim_interface(erg, INTERFACE)

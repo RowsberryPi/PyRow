@@ -3,6 +3,7 @@ PyRow.Concept2.PerformanceMonitor
 """
 
 import datetime
+import logging
 import sys
 import time
 from threading import Lock
@@ -144,8 +145,7 @@ class PerformanceMonitor(object):
             if device.is_kernel_driver_active(0):
                 device.detach_kernel_driver(0)
             else:
-                print
-                "DEBUG: usb kernel driver not on " + sys.platform
+                logging.debug("USB Kernel driver not on %s", sys.platform)
 
         usb.util.claim_interface(device, 0)
 
@@ -248,8 +248,7 @@ class PerformanceMonitor(object):
         :return:
         """
         response = self.get_status()
-        print
-        "Current Status: {0}".format(response.get_status_message())
+        logging.info("Current Status: %s", response.get_status_message())
 
         manual = response.get_status() == PerformanceMonitor.STATE_MANUAL
         offline = response.get_status() == PerformanceMonitor.STATE_OFFLINE
@@ -265,18 +264,15 @@ class PerformanceMonitor(object):
         if not finished and not ready:
             self.send_commands([PerformanceMonitor.GO_FINISHED])
             while self.get_status().get_status() != PerformanceMonitor.STATE_FINISHED:
-                print
-                "Waiting for Finish"
+                logging.debug("Waiting for finish.")
 
         self.send_commands([PerformanceMonitor.GO_IDLE])
         while self.get_status().get_status() != PerformanceMonitor.STATE_IDLE:
-            print
-            "Waiting for Idle"
+            logging.debug("Waiting for idle.")
 
         self.send_commands([PerformanceMonitor.GO_READY])
         while self.get_status().get_status() != PerformanceMonitor.STATE_READY:
-            print
-            "Waiting for Ready"
+            logging.debug("Waiting for ready.")
 
     def set_workout(self,
                     program=None,

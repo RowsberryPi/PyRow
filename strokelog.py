@@ -3,6 +3,7 @@
 # The program will record Time, Distance, SPM, Pace, and Force Data for each
 # stroke and save it to 'workout.csv'
 
+import logging
 import time
 
 import pyrow
@@ -15,8 +16,7 @@ if __name__ == '__main__':
         exit("No ergs found.")
 
     erg = pyrow.pyrow(ergs[0])
-    print
-    "Connected to erg."
+    logging.info("Connected to erg")
 
     # Open and prepare file
     write_file = open('workout.csv', 'w')
@@ -24,13 +24,11 @@ if __name__ == '__main__':
 
     # Loop until workout has begun
     workout = erg.get_workout()
-    print
-    "Waiting for workout to start ..."
+    logging.info("Waiting for workout to start.")
     while workout['state'] == 0:
         time.sleep(1)
         workout = erg.get_workout()
-    print
-    "Workout has begun"
+    logging.info("Workout has begun")
 
     # Loop until workout ends
     while workout['state'] == 1:
@@ -65,5 +63,4 @@ if __name__ == '__main__':
         workout = erg.get_workout()
 
     write_file.close()
-    print
-    "Workout has ended"
+    logging.info("Workout has ended.")
