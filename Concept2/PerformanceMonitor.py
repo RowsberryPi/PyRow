@@ -4,15 +4,17 @@ PyRow.Concept2.PerformanceMonitor
 # coding=utf-8
 __author__ = 'UVD'
 
-import usb.util
-from usb import USBError
+import datetime
 import sys
 import time
-import datetime
 from threading import Lock
-from PyRow.Concept2.CsafeCmd import CsafeCmd
-from PyRow.Concept2.Response import Response
-from PyRow.Concept2.Exception.BadStateException import BadStateException
+
+import usb.util
+from usb import USBError
+
+from Concept2.CsafeCmd import CsafeCmd
+from Concept2.Exception.BadStateException import BadStateException
+from Concept2.Response import Response
 
 
 class PerformanceMonitor(object):
@@ -144,7 +146,8 @@ class PerformanceMonitor(object):
             if device.is_kernel_driver_active(0):
                 device.detach_kernel_driver(0)
             else:
-                print "DEBUG: usb kernel driver not on " + sys.platform
+                print
+                "DEBUG: usb kernel driver not on " + sys.platform
 
         usb.util.claim_interface(device, 0)
 
@@ -174,7 +177,7 @@ class PerformanceMonitor(object):
         now = datetime.datetime.now()
 
         command = [PerformanceMonitor.SET_TIME, now.hour, now.minute, now.second]
-        command.extend([PerformanceMonitor.SET_DATE, (now.year-1900), now.month, now.day])
+        command.extend([PerformanceMonitor.SET_DATE, (now.year - 1900), now.month, now.day])
 
         self.send_commands(command)
 
@@ -247,7 +250,8 @@ class PerformanceMonitor(object):
         :return:
         """
         response = self.get_status()
-        print "Current Status: {0}".format(response.get_status_message())
+        print
+        "Current Status: {0}".format(response.get_status_message())
 
         manual = response.get_status() == PerformanceMonitor.STATE_MANUAL
         offline = response.get_status() == PerformanceMonitor.STATE_OFFLINE
@@ -263,15 +267,18 @@ class PerformanceMonitor(object):
         if not finished and not ready:
             self.send_commands([PerformanceMonitor.GO_FINISHED])
             while self.get_status().get_status() != PerformanceMonitor.STATE_FINISHED:
-                print "Waiting for Finish"
+                print
+                "Waiting for Finish"
 
         self.send_commands([PerformanceMonitor.GO_IDLE])
         while self.get_status().get_status() != PerformanceMonitor.STATE_IDLE:
-            print "Waiting for Idle"
+            print
+            "Waiting for Idle"
 
         self.send_commands([PerformanceMonitor.GO_READY])
         while self.get_status().get_status() != PerformanceMonitor.STATE_READY:
-            print "Waiting for Ready"
+            print
+            "Waiting for Ready"
 
     def set_workout(self,
                     program=None,
@@ -323,11 +330,11 @@ class PerformanceMonitor(object):
                 # total workout workout_time (1 sec)
                 time_raw = workout_time[0] * 3600 + workout_time[1] * 60 + workout_time[2]
                 # split workout_time that will occur 30 workout_times (.01 sec)
-                min_split = int(time_raw/30*100+0.5)
-                self.__validate_value(split_time, "Split Time", max(2000, min_split), time_raw*100)
+                min_split = int(time_raw / 30 * 100 + 0.5)
+                self.__validate_value(split_time, "Split Time", max(2000, min_split), time_raw * 100)
                 command.extend([PerformanceMonitor.SET_SPLIT_DURATION, 0, split_time])
             elif distance is not None and program is None:
-                min_split = int(distance/30+0.5) # split distance that will occur 30 workout_times (m)
+                min_split = int(distance / 30 + 0.5)  # split distance that will occur 30 workout_times (m)
                 self.__validate_value(split, "Split distance", max(100, min_split), distance)
                 command.extend([PerformanceMonitor.SET_SPLIT_DURATION, 128, split])
             else:
@@ -337,7 +344,7 @@ class PerformanceMonitor(object):
         if pace is not None:
             power_pace = int(round(2.8 / ((pace / 500.) ** 3)))
         elif cal_pace is not None:
-            power_pace = int(round((cal_pace - 300.)/(4.0 * 0.8604)))
+            power_pace = int(round((cal_pace - 300.) / (4.0 * 0.8604)))
         if power_pace is not None:
             command.extend([PerformanceMonitor.SET_POWER, power_pace, 88])  # 88 = watts
 
@@ -383,7 +390,7 @@ class PerformanceMonitor(object):
                     return True
 
             elif PerformanceMonitor.SET_WORKOUT in command and in_use:
-                length = workout_time[0]*60*60 + workout_time[1]*60 + workout_time[2]
+                length = workout_time[0] * 60 * 60 + workout_time[1] * 60 + workout_time[2]
                 if self.send_commands([PerformanceMonitor.GET_TIME]).get_time() == length:
                     return True
 

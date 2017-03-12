@@ -6,7 +6,7 @@ PyRow.Concept2.CsafeCmd
 # Licensed under the Simplified BSD License.
 __author__ = 'Sam Gambrell and UVD'
 
-#ToDo: change print statments to proper errors
+# ToDo: change print statments to proper errors
 
 import PyRow.csafe_dic as csafe_dic
 

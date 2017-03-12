@@ -4,8 +4,9 @@ tests.PyRow.Concept2.ResponseTests
 # coding=utf-8
 __author__ = 'UVD'
 
-import mock
 import unittest
+
+import mock
 from PyRow.Concept2.Response import Response
 
 
@@ -547,7 +548,7 @@ class ResponseTests(unittest.TestCase):
                 200,  # Erg cid
                 300,  # Model
                 400,  # Hw version
-                500   # Sw version
+                500  # Sw version
             ]
         }
 
@@ -694,7 +695,7 @@ class ResponseTests(unittest.TestCase):
             'CSAFE_GETCAPS_CMD': [
                 100,  # Max Rx Frame
                 150,  # Max Tx Frame
-                200   # Min Interframe
+                200  # Min Interframe
             ]
         }
 

@@ -19,6 +19,7 @@ sys.modules['usb.util'] = mock.Mock()
 sys.modules['PyRow.Concept2.CsafeCmd'] = mock.Mock()  # Mocking the file
 sys.modules['PyRow.Concept2.CsafeCmd'].CsafeCmd = CsafeCmd()
 
+
 def usb_util_get_string_side_effect(device, key):
     """
     :param device:
@@ -26,6 +27,7 @@ def usb_util_get_string_side_effect(device, key):
     :return:
     """
     return device.get_usb_util_string(key)
+
 
 sys.modules['usb'].util.get_string = mock.Mock(side_effect=usb_util_get_string_side_effect)
 sys.modules['usb'].core.find = mock.Mock(return_value=[PM3()])

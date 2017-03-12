@@ -5,7 +5,6 @@ import mock
 
 
 class CsafeCmd(mock.Mock):
-
     def __init__(self):
         """
         :return:

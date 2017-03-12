@@ -27,7 +27,7 @@ class Response(object):
         :return:
         """
         if 'CSAFE_PM_GET_WORKTIME' in self.__results.keys():
-            return (self.__results['CSAFE_PM_GET_WORKTIME'][0] + self.__results['CSAFE_PM_GET_WORKTIME'][1])/100.
+            return (self.__results['CSAFE_PM_GET_WORKTIME'][0] + self.__results['CSAFE_PM_GET_WORKTIME'][1]) / 100.
         return None
 
     def get_distance(self):
@@ -36,12 +36,13 @@ class Response(object):
         :return:
         """
         if 'CSAFE_PM_GET_WORKDISTANCE' in self.__results.keys():
-            return (self.__results['CSAFE_PM_GET_WORKDISTANCE'][0] + self.__results['CSAFE_PM_GET_WORKDISTANCE'][1])/10.
+            return (self.__results['CSAFE_PM_GET_WORKDISTANCE'][0] + self.__results['CSAFE_PM_GET_WORKDISTANCE'][
+                1]) / 10.
         return None
 
     def get_pace(self):
         if 'CSAFE_GETPACE_CMD' in self.__results.keys():
-            return float(self.__results['CSAFE_GETPACE_CMD'][0])/1000
+            return float(self.__results['CSAFE_GETPACE_CMD'][0]) / 1000
         return None
 
     def get_pace_500(self):
@@ -122,7 +123,7 @@ class Response(object):
             force_plot_data = self.__results['CSAFE_PM_GET_FORCEPLOTDATA']
             datapoints = force_plot_data[0] / 2
 
-            return force_plot_data[1:(datapoints+1)]
+            return force_plot_data[1:(datapoints + 1)]
         return None
 
     def get_force_plot_strokestate(self):
@@ -140,7 +141,7 @@ class Response(object):
         if 'CSAFE_GETID_CMD' in self.__results.keys():
             return self.__results['CSAFE_GETID_CMD'][0]
         return None
-    
+
     def get_workout_type(self):
         """
         :return:
@@ -163,49 +164,48 @@ class Response(object):
         if 'CSAFE_PM_GET_WORKOUTINTERVALCOUNT' in self.__results.keys():
             return self.__results['CSAFE_PM_GET_WORKOUTINTERVALCOUNT'][0]
         return None
-        
+
     def get_erg_mfgid(self):
         if 'CSAFE_GETVERSION_CMD' in self.__results.keys():
             return self.__results['CSAFE_GETVERSION_CMD'][0]
         return None
-        
+
     def get_erg_cid(self):
         if 'CSAFE_GETVERSION_CMD' in self.__results.keys():
             return self.__results['CSAFE_GETVERSION_CMD'][1]
         return None
-        
+
     def get_erg_model(self):
         if 'CSAFE_GETVERSION_CMD' in self.__results.keys():
             return self.__results['CSAFE_GETVERSION_CMD'][2]
         return None
-        
+
     def get_erg_hwversion(self):
         if 'CSAFE_GETVERSION_CMD' in self.__results.keys():
             return self.__results['CSAFE_GETVERSION_CMD'][3]
         return None
-        
+
     def get_erg_swversion(self):
         if 'CSAFE_GETVERSION_CMD' in self.__results.keys():
             return self.__results['CSAFE_GETVERSION_CMD'][4]
         return None
-        
+
     def get_erg_serial(self):
         if 'CSAFE_GETSERIAL_CMD' in self.__results.keys():
             return self.__results['CSAFE_GETSERIAL_CMD'][0]
         return None
-        
+
     def get_erg_maxrx(self):
         if 'CSAFE_GETCAPS_CMD' in self.__results.keys():
             return self.__results['CSAFE_GETCAPS_CMD'][0]
         return None
-        
+
     def get_erg_maxtx(self):
         if 'CSAFE_GETCAPS_CMD' in self.__results.keys():
             return self.__results['CSAFE_GETCAPS_CMD'][1]
         return None
-        
+
     def get_erg_mininterframe(self):
         if 'CSAFE_GETCAPS_CMD' in self.__results.keys():
             return self.__results['CSAFE_GETCAPS_CMD'][2]
         return None
-
