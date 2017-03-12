@@ -1,10 +1,3 @@
-#!/usr/bin/env python
-# Copyright (c) 2011, Sam Gambrell
-# Licensed under the Simplified BSD License.
-# NOTE: This code has not been thoroughly tested and may not function as advertised.
-#   Please report and findings to the author so that they may be addressed in a stable release.
-
-
 import datetime
 import sys
 import time
@@ -39,9 +32,11 @@ class pyrow(object):
                 if erg.is_kernel_driver_active(INTERFACE):
                     erg.detach_kernel_driver(INTERFACE)
                 else:
-                    print "DEBUG: usb kernel driver not on " + sys.platform
+                    print
+                    "DEBUG: usb kernel driver not on " + sys.platform
             except:
-                print "EXCEPTION"
+                print
+                "EXCEPTION"
 
         # Claim interface (Needs Testing To See If Necessary)
         usb.util.claim_interface(erg, INTERFACE)

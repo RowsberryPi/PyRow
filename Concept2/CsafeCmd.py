@@ -1,12 +1,6 @@
 """
 PyRow.Concept2.CsafeCmd
 """
-# coding=utf-8
-# Copyright (c) 2011, Sam Gambrell,
-# Licensed under the Simplified BSD License.
-__author__ = 'Sam Gambrell and UVD'
-
-# ToDo: change print statments to proper errors
 
 import PyRow.csafe_dic as csafe_dic
 
@@ -24,7 +18,8 @@ class CsafeCmd:
         :return:
         """
         if not 0 <= integer <= 2 ** (8 * num_bytes):
-            print "Integer is outside the allowable range"
+            print
+            "Integer is outside the allowable range"
 
         byte = []
         for k in range(num_bytes):
@@ -155,7 +150,8 @@ class CsafeCmd:
 
         # Check for frame size (96 bytes)
         if len(message) > 96:
-            print "Message is too long: {0}".format(len(message))
+            print
+            "Message is too long: {0}".format(len(message))
 
         # Report IDs
         max_message = max(len(message) + 1, max_response)
@@ -170,9 +166,11 @@ class CsafeCmd:
             message.insert(0, 0x02)
             message += [0] * (121 - len(message))
             if max_response > 121:
-                print "Response may be too long to receive.  Max possible length " + str(max_response)
+                print
+                "Response may be too long to receive.  Max possible length " + str(max_response)
         else:
-            print "Message too long.  Message length " + str(len(message))
+            print
+            "Message too long.  Message length " + str(len(message))
             message = []
 
         return message
@@ -201,7 +199,8 @@ class CsafeCmd:
 
         # Checks checksum
         if checksum != 0:
-            print "Checksum error"
+            print
+            "Checksum error"
             return []
 
         # Remove checksum from  end of message
@@ -230,7 +229,8 @@ class CsafeCmd:
         elif start_flag == csafe_dic.Standard_Frame_Start_Flag:
             j = 2
         else:
-            print "No Start Flag found."
+            print
+            "No Start Flag found."
             return []
 
         while j < len(transmission):
@@ -241,7 +241,8 @@ class CsafeCmd:
             j += 1
 
         if not stop_found:
-            print "No Stop Flag found."
+            print
+            "No Stop Flag found."
             return []
 
         message = CsafeCmd.__check_message(message)
@@ -289,7 +290,8 @@ class CsafeCmd:
 
             # Checking that the received data byte is the expected length, sanity check
             if abs(sum(msg_prop[1])) != 0 and byte_count != abs(sum(msg_prop[1])):
-                print "Warning: byte_count is an unexpected length"
+                print
+                "Warning: byte_count is an unexpected length"
 
             # Extract values
             for num_bytes in msg_prop[1]:

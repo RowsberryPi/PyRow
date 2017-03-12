@@ -2,9 +2,6 @@
 PyRow.Concept2.Exception.BadStateException
 """
 
-# coding=utf-8
-__author__ = 'UVD'
-
 
 class BadStateException(Exception):
     """

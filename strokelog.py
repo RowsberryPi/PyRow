@@ -1,14 +1,7 @@
-#!/usr/bin/env python
-# Copyright (c) 2011, Sam Gambrell
-# Licensed under the Simplified BSD License.
-
 # This is an example file to show how to make use of pyrow
 # Have the rowing machine on and plugged into the computer before starting the program
 # The program will record Time, Distance, SPM, Pace, and Force Data for each
 # stroke and save it to 'workout.csv'
-
-# NOTE: This code has not been thoroughly tested and may not function as advertised.
-# Please report and findings to the author so that they may be addressed in a stable release.
 
 import time
 
@@ -22,7 +15,8 @@ if __name__ == '__main__':
         exit("No ergs found.")
 
     erg = pyrow.pyrow(ergs[0])
-    print "Connected to erg."
+    print
+    "Connected to erg."
 
     # Open and prepare file
     write_file = open('workout.csv', 'w')
@@ -30,11 +24,13 @@ if __name__ == '__main__':
 
     # Loop until workout has begun
     workout = erg.get_workout()
-    print "Waiting for workout to start ..."
+    print
+    "Waiting for workout to start ..."
     while workout['state'] == 0:
         time.sleep(1)
         workout = erg.get_workout()
-    print "Workout has begun"
+    print
+    "Workout has begun"
 
     # Loop until workout ends
     while workout['state'] == 1:
@@ -69,4 +65,5 @@ if __name__ == '__main__':
         workout = erg.get_workout()
 
     write_file.close()
-    print "Workout has ended"
+    print
+    "Workout has ended"

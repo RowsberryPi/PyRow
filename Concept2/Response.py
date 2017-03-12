@@ -1,7 +1,3 @@
-# coding=utf-8
-__author__ = 'UVD'
-
-
 class Response(object):
     """
     Response

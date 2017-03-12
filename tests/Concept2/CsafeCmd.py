@@ -39,5 +39,6 @@ class CsafeCmd(mock.Mock):
         :param commands:
         :return:
         """
-        print "Write: {0}".format(commands)
+        print
+        "Write: {0}".format(commands)
         return []
