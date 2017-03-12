@@ -7,7 +7,7 @@ import usb.core
 import usb.util
 from usb import USBError
 
-import csafe_cmd
+from . import csafe_cmd
 
 C2_VENDOR_ID = 0x17a4
 MIN_FRAME_GAP = .050  # in seconds

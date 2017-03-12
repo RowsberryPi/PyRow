@@ -1,6 +1,6 @@
 import logging
 
-import csafe_dic
+from . import csafe_dic
 
 
 def __int2bytes(numbytes, integer):

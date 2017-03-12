@@ -5,7 +5,7 @@
 import logging
 import time
 
-import pyrow
+from . import pyrow
 
 if __name__ == '__main__':
     # Connecting to erg
