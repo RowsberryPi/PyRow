@@ -4,7 +4,7 @@ PyRow.Concept2.CsafeCmd
 
 import logging
 
-import PyRow.csafe_dic as csafe_dic
+import csafe_dic as csafe_dic
 
 
 class CsafeCmd:

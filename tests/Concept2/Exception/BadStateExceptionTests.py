@@ -1,12 +1,9 @@
 """
 tests.PyRow.Concept2.Exception.BadStateException
 """
-# coding=utf-8
 import unittest
 
-from PyRow.tests.Concept2.Device import PM3
-
-__author__ = 'UVD'
+from tests.Concept2.Device import PM3
 
 
 class BadStateExceptionTests(unittest.TestCase):

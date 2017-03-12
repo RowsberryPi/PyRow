@@ -1,13 +1,11 @@
 """
 tests.PyRow.Concept2.ResponseTests
 """
-# coding=utf-8
-__author__ = 'UVD'
 
 import unittest
 
 import mock
-from PyRow.Concept2.Response import Response
+from Concept2.Response import Response
 
 
 class ResponseTests(unittest.TestCase):

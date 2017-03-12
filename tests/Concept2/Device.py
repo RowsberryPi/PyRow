@@ -1,13 +1,10 @@
 """
 tests.PyRow.Concept2.Device
 """
-# coding=utf-8
-__author__ = 'UVD'
-
 import mock
 
 
-class PM3(mock.Mock):
+class PM3(mock.NonCallableMock):
     """
     PM3 Device Mock
     """
@@ -16,7 +13,7 @@ class PM3(mock.Mock):
         """
         :return:
         """
-        mock.Mock.__init__(self)
+        super(PM3, self).__init__()
 
         self.__commands = []
 

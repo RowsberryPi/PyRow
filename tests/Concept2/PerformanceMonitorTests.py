@@ -1,18 +1,16 @@
 """
 tests.PyRow.Concept2.PerformanceMonitorTests
 """
-# coding=utf-8
-from PyRow.Concept2.Exception.BadStateException import BadStateException
-
-__author__ = 'UVD'
-
-import unittest
 import sys
+import unittest
 
 import mock
 
-from PyRow.tests.Concept2.Device import PM3
-from PyRow.tests.Concept2.CsafeCmd import CsafeCmd
+from Concept2.Exception.BadStateException import BadStateException
+from Concept2.PerformanceMonitor import PerformanceMonitor
+from Concept2.Response import Response
+from tests.Concept2.CsafeCmd import CsafeCmd
+from tests.Concept2.Device import PM3
 
 sys.modules['usb'] = mock.Mock()
 sys.modules['usb.util'] = mock.Mock()
@@ -49,9 +47,6 @@ d_mock.datetime = date_mock
 sys.modules['datetime'] = d_mock
 sys.modules['datetime.datetime'] = date_mock
 sys.modules['datetime'].datetime = date_mock
-
-from PyRow.Concept2.PerformanceMonitor import PerformanceMonitor
-from PyRow.Concept2.Response import Response
 
 
 class PerformanceMonitorTests(unittest.TestCase):
@@ -91,7 +86,7 @@ class PerformanceMonitorTests(unittest.TestCase):
         PerformanceMonitor.find - it should return currently connected performance monitors
         :return:
         """
-        sys.modules['PyRow.Concept2.CsafeCmd'].CsafeCmd.set_responses(
+        sys.modules['Concept2.CsafeCmd'].CsafeCmd.set_responses(
             self.reset_responses
         )
 
