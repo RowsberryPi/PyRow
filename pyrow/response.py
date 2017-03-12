@@ -117,7 +117,7 @@ class Response(object):
         """
         if 'CSAFE_PM_GET_FORCEPLOTDATA' in list(self.__results.keys()):
             force_plot_data = self.__results['CSAFE_PM_GET_FORCEPLOTDATA']
-            datapoints = force_plot_data[0] / 2
+            datapoints = force_plot_data[0] // 2
 
             return force_plot_data[1:(datapoints + 1)]
         return None
