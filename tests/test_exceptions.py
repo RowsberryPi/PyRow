@@ -3,7 +3,7 @@ tests.PyRow.Concept2.Exception.BadStateException
 """
 import unittest
 
-from tests.Concept2.Device import PM3
+from tests.device import PM3
 
 
 class BadStateExceptionTests(unittest.TestCase):

@@ -5,12 +5,12 @@ import sys
 import unittest
 
 import mock
+from tests.device import PM3
 
 from pyrow.exceptions import BadStateException
 from pyrow.performance_monitor import PerformanceMonitor
 from pyrow.response import Response
-from tests.Concept2.CsafeCmd import CsafeCmd
-from tests.Concept2.Device import PM3
+from tests.csafe_cmd import CsafeCmd
 
 sys.modules['usb'] = mock.Mock()
 sys.modules['usb.util'] = mock.Mock()
