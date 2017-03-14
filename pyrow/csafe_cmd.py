@@ -39,7 +39,7 @@ class CsafeCmd:
         integer = 0
 
         for k in range(num_bytes):
-            integer = (raw_bytes[k] << (8 * k)) | integer
+            integer |= (raw_bytes[k] << (8 * k))
 
         return integer
 
