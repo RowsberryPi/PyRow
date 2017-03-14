@@ -1,0 +1,20 @@
+#after_success: coveralls
+cache: pip
+install:
+  - python setup.py install
+language: python
+matrix:
+  allow_failures:
+    - python: nightly
+  fast_finish: true
+python:
+  - 3.3
+  - 3.4
+  - 3.5
+  - 3.6
+  - nightly
+sudo: false
+script:
+  - flake8 --exclude=docs
+  - pydocstyle pyrow
+#  - coverage run --source=pyrow setup.py test
