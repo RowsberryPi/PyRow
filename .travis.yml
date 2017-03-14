@@ -1,6 +1,7 @@
 #after_success: coveralls
 cache: pip
 install:
+  - pip install coveralls flake8 pydocstyle
   - python setup.py install
 language: python
 matrix:
