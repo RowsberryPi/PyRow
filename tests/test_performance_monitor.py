@@ -151,7 +151,9 @@ class PerformanceMonitorTests(unittest.TestCase):
 
     def test_send_commands(self):
         """
-        PerformanceMonitor.send_commands - it should send commands to the Ergometer and return the response
+        PerformanceMonitor.send_commands
+
+        It should send commands to the Ergometer and return the response
         :return:
         """
         # It should return a Response object

@@ -217,7 +217,7 @@ class PerformanceMonitor(object):
         try:
             c_safe = CsafeCmd.write(commands)
 
-            length = self.__device.write(self.__out_address, c_safe, timeout=PerformanceMonitor.TIMEOUT)
+            length = self.__device.write(self.__out_address, c_safe, timeout=self.TIMEOUT)
             self.__last_message = time.time()
 
             response = []
@@ -325,10 +325,16 @@ class PerformanceMonitor(object):
                 time_raw = workout_time[0] * 3600 + workout_time[1] * 60 + workout_time[2]
                 # split workout_time that will occur 30 workout_times (.01 sec)
                 min_split = int(time_raw / 30 * 100 + 0.5)
-                self.__validate_value(split_time, "Split Time", max(2000, min_split), time_raw * 100)
+                self.__validate_value(
+                    split_time,
+                    "Split Time",
+                    max(2000, min_split),
+                    time_raw * 100
+                )
                 command.extend([PerformanceMonitor.SET_SPLIT_DURATION, 0, split_time])
             elif distance is not None and program is None:
-                min_split = int(distance / 30 + 0.5)  # split distance that will occur 30 workout_times (m)
+                # split distance that will occur 30 workout_times (m)
+                min_split = int(distance / 30 + 0.5)
                 self.__validate_value(split, "Split distance", max(100, min_split), distance)
                 command.extend([PerformanceMonitor.SET_SPLIT_DURATION, 128, split])
             else:
@@ -342,7 +348,7 @@ class PerformanceMonitor(object):
         if power_pace is not None:
             command.extend([PerformanceMonitor.SET_POWER, power_pace, 88])  # 88 = watts
 
-        command.extend([PerformanceMonitor.SET_PROGRAM, program_num, 0, PerformanceMonitor.GO_IN_USE])
+        command.extend([self.SET_PROGRAM, program_num, 0, self.GO_IN_USE])
 
         self.send_commands(command)
 

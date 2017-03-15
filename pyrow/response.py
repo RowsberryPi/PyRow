@@ -3,7 +3,18 @@ class Response(object):
     Response
     """
 
-    rower_state = ["Error", "Ready", "Idle", "Have ID", "N/A", "In Use", "Pause", "Finished", "Manual", "Offline"]
+    rower_state = [
+        "Error",
+        "Ready",
+        "Idle",
+        "Have ID",
+        "N/A",
+        "In Use",
+        "Pause",
+        "Finished",
+        "Manual",
+        "Offline"
+    ]
 
     rower_stroke = ["Wait for min speed", "Wait for acceleration", "Drive", "Dwelling", "Recovery"]
 
@@ -23,7 +34,8 @@ class Response(object):
         :return:
         """
         if 'CSAFE_PM_GET_WORKTIME' in list(self.__results.keys()):
-            return (self.__results['CSAFE_PM_GET_WORKTIME'][0] + self.__results['CSAFE_PM_GET_WORKTIME'][1]) / 100.
+            return (self.__results['CSAFE_PM_GET_WORKTIME'][0] +
+                    self.__results['CSAFE_PM_GET_WORKTIME'][1]) / 100.
         return None
 
     def get_distance(self):
@@ -32,8 +44,8 @@ class Response(object):
         :return:
         """
         if 'CSAFE_PM_GET_WORKDISTANCE' in list(self.__results.keys()):
-            return (self.__results['CSAFE_PM_GET_WORKDISTANCE'][0] + self.__results['CSAFE_PM_GET_WORKDISTANCE'][
-                1]) / 10.
+            return (self.__results['CSAFE_PM_GET_WORKDISTANCE'][0] +
+                    self.__results['CSAFE_PM_GET_WORKDISTANCE'][1]) / 10.
         return None
 
     def get_pace(self):

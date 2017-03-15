@@ -386,7 +386,9 @@ class ResponseTests(unittest.TestCase):
 
     def test_get_force_plot_strokestate(self):
         """
-        Response.get_force_plot_strokestate - it should return the force plot strokestate if it exists
+        Response.get_force_plot_strokestate
+
+        It should return the force plot strokestate if it exists
         :return:
         """
         results = {

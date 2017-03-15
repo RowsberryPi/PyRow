@@ -166,7 +166,8 @@ class CsafeCmd:
             message.insert(0, 0x02)
             message += [0] * (121 - len(message))
             if max_response > 121:
-                logging.warning("Response may be too long to receive. Max possible length: %d", max_response)
+                logging.warning("Response may be too long to receive. "
+                                "Max possible length: %d", max_response)
         else:
             logging.error("Message too long. Message length: %d", len(message))
             message = []
@@ -290,7 +291,11 @@ class CsafeCmd:
             # Extract values
             for num_bytes in msg_prop[1]:
                 raw_bytes = message[k:k + abs(num_bytes)]
-                value = (CsafeCmd.__bytes2int(raw_bytes) if num_bytes >= 0 else CsafeCmd.__bytes2ascii(raw_bytes))
+                value = (
+                    CsafeCmd.__bytes2int(raw_bytes)
+                    if num_bytes >= 0
+                    else CsafeCmd.__bytes2ascii(raw_bytes)
+                )
                 result.append(value)
                 k = k + abs(num_bytes)
 
