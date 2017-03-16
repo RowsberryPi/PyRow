@@ -18,4 +18,4 @@ sudo: false
 script:
   - flake8 --exclude=docs
   - pydocstyle pyrow
-#  - coverage run --source=pyrow setup.py test
+  - coverage run --source=pyrow setup.py test

@@ -2,20 +2,18 @@
 tests.PyRow.Concept2.PerformanceMonitorTests
 """
 import sys
-import unittest
+from unittest import TestCase
+from unittest.mock import MagicMock
 
-import mock
+from freezegun import freeze_time
+
+from tests.csafe_cmd import CsafeCmd
 from tests.device import PM3
 
-from pyrow.exceptions import BadStateException
-from pyrow.performance_monitor import PerformanceMonitor
-from pyrow.response import Response
-from tests.csafe_cmd import CsafeCmd
-
-sys.modules['usb'] = mock.Mock()
-sys.modules['usb.util'] = mock.Mock()
-sys.modules['PyRow.Concept2.CsafeCmd'] = mock.Mock()  # Mocking the file
-sys.modules['PyRow.Concept2.CsafeCmd'].CsafeCmd = CsafeCmd()
+sys.modules['usb'] = MagicMock()
+sys.modules['usb.util'] = MagicMock()
+sys.modules['pyrow.csafe_cmd'] = MagicMock()  # MagicMocking the file
+sys.modules['pyrow.csafe_cmd'].CsafeCmd = CsafeCmd()
 
 
 def usb_util_get_string_side_effect(device, key):
@@ -27,29 +25,18 @@ def usb_util_get_string_side_effect(device, key):
     return device.get_usb_util_string(key)
 
 
-sys.modules['usb'].util.get_string = mock.Mock(side_effect=usb_util_get_string_side_effect)
-sys.modules['usb'].core.find = mock.Mock(return_value=[PM3()])
+sys.modules['usb'].util.get_string = MagicMock(side_effect=usb_util_get_string_side_effect)
+sys.modules['usb'].core.find = MagicMock(return_value=[PM3()])
 
-sys.modules['Lock'] = mock.Mock()
-sys.modules['Lock'].acquire = mock.Mock()
+sys.modules['Lock'] = MagicMock()
+sys.modules['Lock'].acquire = MagicMock()
 
-now = mock.Mock()
-now.hour = 14
-now.minute = 45
-now.second = 22
-now.year = 2015
-now.month = 11
-now.day = 10
-date_mock = mock.Mock()
-date_mock.now = mock.Mock(return_value=now)
-d_mock = mock.Mock()
-d_mock.datetime = date_mock
-sys.modules['datetime'] = d_mock
-sys.modules['datetime.datetime'] = date_mock
-sys.modules['datetime'].datetime = date_mock
+from pyrow.exceptions import BadStateException
+from pyrow.performance_monitor import PerformanceMonitor
+from pyrow.response import Response
 
 
-class PerformanceMonitorTests(unittest.TestCase):
+class PerformanceMonitorTests(TestCase):
     """
     Tests for PerformanceMonitor
     """
@@ -78,7 +65,7 @@ class PerformanceMonitorTests(unittest.TestCase):
             }
         ]
 
-        sys.modules['PyRow.Concept2.CsafeCmd'].CsafeCmd.set_responses(self.reset_responses)
+        sys.modules['pyrow.csafe_cmd'].CsafeCmd.set_responses(self.reset_responses)
         self.performance_monitor = PerformanceMonitor(self.device)
 
     def test_find(self):
@@ -86,7 +73,7 @@ class PerformanceMonitorTests(unittest.TestCase):
         PerformanceMonitor.find - it should return currently connected performance monitors
         :return:
         """
-        sys.modules['Concept2.CsafeCmd'].CsafeCmd.set_responses(
+        sys.modules['pyrow.csafe_cmd'].CsafeCmd.set_responses(
             self.reset_responses
         )
 
@@ -97,12 +84,13 @@ class PerformanceMonitorTests(unittest.TestCase):
             PerformanceMonitor
         )
 
+    @freeze_time("2015-11-10 14:45:22")
     def test_set_clock(self):
         """
         PerformanceMonitor.set_clock - it should set the clock to the computer's time
         :return:
         """
-        self.performance_monitor.send_commands = mock.Mock()
+        self.performance_monitor.send_commands = MagicMock()
         self.performance_monitor.set_clock()
 
         self.performance_monitor.send_commands.assert_called_with(
@@ -157,7 +145,7 @@ class PerformanceMonitorTests(unittest.TestCase):
         :return:
         """
         # It should return a Response object
-        sys.modules['PyRow.Concept2.CsafeCmd'].CsafeCmd.set_responses([
+        sys.modules['pyrow.csafe_cmd'].CsafeCmd.set_responses([
             {
                 'CSAFE_GETSTATUS_CMD': [2]  # Idle state
             }
@@ -173,7 +161,7 @@ class PerformanceMonitorTests(unittest.TestCase):
         :return:
         """
         # It should return a Response object
-        sys.modules['PyRow.Concept2.CsafeCmd'].CsafeCmd.set_responses([
+        sys.modules['pyrow.csafe_cmd'].CsafeCmd.set_responses([
             {
                 'CSAFE_GETSTATUS_CMD': [2]  # Idle state
             }
@@ -189,7 +177,7 @@ class PerformanceMonitorTests(unittest.TestCase):
         :return:
         """
         # It should return a Response object
-        sys.modules['PyRow.Concept2.CsafeCmd'].CsafeCmd.set_responses([
+        sys.modules['pyrow.csafe_cmd'].CsafeCmd.set_responses([
             {
                 'CSAFE_GETSTATUS_CMD': [9]  # Offline state
             }
