@@ -31,7 +31,7 @@ setup(name=PACKAGE_NAME,
       description=('PyRow is a Python library that allows interaction with '
                    'a Concept2 PM3, PM4 or PM5.'),
       install_requires=['pyusb >= 1.0.0'],
-      test_requires=['freezegun >= 0.3.8'],
+      tests_require=['freezegun >= 0.3.8'],
       keywords='rowing ergometer concept2',
       license='Simplified BSD License',
       long_description=README,
