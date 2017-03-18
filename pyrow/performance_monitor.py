@@ -11,7 +11,7 @@ from threading import Lock
 import usb.util
 from usb import USBError
 
-from pyrow.csafe_cmd import CsafeCmd
+from pyrow.csafe.cmd import CsafeCmd
 from pyrow.exceptions import BadStateException
 from pyrow.response import Response
 

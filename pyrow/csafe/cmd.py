@@ -1,16 +1,12 @@
-"""
-PyRow.Concept2.CsafeCmd
-"""
+"""Provide the CsafeCmd class."""
 
 import logging
 
-from pyrow import csafe_dic as csafe_dic
+from pyrow.csafe import const
 
 
 class CsafeCmd:
-    """
-    CsafeCmd
-    """
+    """The CsafeCmd class allows conversion from CSAFE commands to bytes and vice-versa."""
 
     @staticmethod
     def __int2bytes(num_bytes, integer):
@@ -72,7 +68,7 @@ class CsafeCmd:
         while i < len(arguments):
 
             arg = arguments[i]
-            cmd_prop = csafe_dic.CMDS[arg]
+            cmd_prop = const.CMDS[arg]
             command = []
 
             # Load variables if command is a Long Command
@@ -112,7 +108,7 @@ class CsafeCmd:
             # Max message length
             cmd_id = cmd_prop[0] | (wrapper << 8)
             # Double return to account for stuffing
-            max_response += abs(sum(csafe_dic.RESP[cmd_id][1])) * 2 + 1
+            max_response += abs(sum(const.RESP[cmd_id][1])) * 2 + 1
 
             # Add completed command to final message
             message.extend(command)
@@ -136,7 +132,7 @@ class CsafeCmd:
 
             # Byte stuffing
             if 0xF0 <= message[j] <= 0xF3:
-                message.insert(j, csafe_dic.BYTE_STUFFING_FLAG)
+                message.insert(j, const.BYTE_STUFFING_FLAG)
                 j += 1
                 message[j] &= 0x3
 
@@ -146,8 +142,8 @@ class CsafeCmd:
         message.append(checksum)
 
         # Start & stop frames
-        message.insert(0, csafe_dic.STANDARD_FRAME_START_FLAG)
-        message.append(csafe_dic.STOP_FRAME_FLAG)
+        message.insert(0, const.STANDARD_FRAME_START_FLAG)
+        message.append(const.STOP_FRAME_FLAG)
 
         # Check for frame size (96 bytes)
         if len(message) > 96:
@@ -187,7 +183,7 @@ class CsafeCmd:
         # Checksum and unstuff
         while i < len(message):
             # Byte unstuffing
-            if message[i] == csafe_dic.BYTE_STUFFING_FLAG:
+            if message[i] == const.BYTE_STUFFING_FLAG:
                 stuff_value = message.pop(i + 1)
                 message[i] = 0xF0 | stuff_value
 
@@ -220,18 +216,18 @@ class CsafeCmd:
         # Report ID = transmission[0]
         start_flag = transmission[1]
 
-        if start_flag == csafe_dic.EXTENDED_FRAME_START_FLAG:
+        if start_flag == const.EXTENDED_FRAME_START_FLAG:
             # Destination = transmission[2]
             # Source = transmission[3]
             j = 4
-        elif start_flag == csafe_dic.STANDARD_FRAME_START_FLAG:
+        elif start_flag == const.STANDARD_FRAME_START_FLAG:
             j = 2
         else:
             logging.error("No Start Flag found.")
             return []
 
         while j < len(transmission):
-            if transmission[j] == csafe_dic.STOP_FRAME_FLAG:
+            if transmission[j] == const.STOP_FRAME_FLAG:
                 stop_found = True
                 break
             message.append(transmission[j])
@@ -258,7 +254,7 @@ class CsafeCmd:
             msg_cmd = message[k]
             if k <= wrap_end:
                 msg_cmd |= wrapper  # Check if still in wrapper
-            msg_prop = csafe_dic.RESP[msg_cmd]
+            msg_prop = const.RESP[msg_cmd]
             k += 1
 
             # Get data byte count
@@ -271,7 +267,7 @@ class CsafeCmd:
                 wrap_end = k + byte_count - 1
                 if byte_count:  # If wrapper length != 0
                     msg_cmd = wrapper | message[k]
-                    msg_prop = csafe_dic.RESP[msg_cmd]
+                    msg_prop = const.RESP[msg_cmd]
                     k += 1
                     byte_count = message[k]
                     k += 1
