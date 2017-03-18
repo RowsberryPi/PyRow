@@ -31,9 +31,9 @@ sys.modules['usb'].core.find = MagicMock(return_value=[PM3()])
 sys.modules['Lock'] = MagicMock()
 sys.modules['Lock'].acquire = MagicMock()
 
-from pyrow.exceptions import BadStateException
-from pyrow.performance_monitor import PerformanceMonitor
-from pyrow.response import Response
+from pyrow.exceptions import BadStateException  # noqa E402
+from pyrow.performance_monitor import PerformanceMonitor  # noqa E402
+from pyrow.response import Response  # noqa E402
 
 
 class PerformanceMonitorTests(TestCase):
