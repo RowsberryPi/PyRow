@@ -1,7 +1,7 @@
 #after_success: coveralls
 cache: pip
 install:
-  - pip install coveralls flake8 pydocstyle
+  - pip install coveralls flake8 pydocstyle pylint
   - python setup.py install
 language: python
 matrix:
@@ -18,4 +18,5 @@ sudo: false
 script:
   - flake8 --exclude=docs
   - pydocstyle pyrow
+  - pylint --rcfile=.pylintrc pyrow
   - coverage run --source=pyrow setup.py test
