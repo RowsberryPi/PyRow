@@ -1,4 +1,4 @@
-#after_success: coveralls
+after_success: coveralls
 cache: pip
 install:
   - pip install coveralls flake8 pydocstyle pylint
@@ -17,6 +17,6 @@ python:
 sudo: false
 script:
   - flake8 --exclude=docs
-  - pydocstyle pyrow
+#  - pydocstyle pyrow
   - pylint --rcfile=.pylintrc pyrow
   - coverage run --source=pyrow setup.py test
