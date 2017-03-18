@@ -1,10 +1,10 @@
 """
 tests.PyRow.Concept2.Device
 """
-import mock
+from unittest.mock import MagicMock, NonCallableMagicMock
 
 
-class PM3(mock.NonCallableMock):
+class PM3(NonCallableMagicMock):
     """
     PM3 Device Mock
     """
@@ -25,8 +25,8 @@ class PM3(mock.NonCallableMock):
 
         self.idProduct = 0x0001
 
-        in_endpoint = mock.Mock()
-        out_endpoint = mock.Mock()
+        in_endpoint = MagicMock()
+        out_endpoint = MagicMock()
         in_endpoint.bEndPointAddress = 'IN_ENDPOINT'
         out_endpoint.bEndPointAddress = 'OUT_ENDPOINT'
 

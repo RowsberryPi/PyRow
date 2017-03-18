@@ -2,14 +2,13 @@
 tests.PyRow.Concept2.ResponseTests
 """
 
-import unittest
-
-import mock
+from unittest import TestCase
+from unittest.mock import MagicMock
 
 from pyrow.response import Response
 
 
-class ResponseTests(unittest.TestCase):
+class ResponseTests(TestCase):
     """
     ResponseTests
     """
@@ -19,7 +18,7 @@ class ResponseTests(unittest.TestCase):
         Response.get_raw - it should return the data
         :return:
         """
-        results = mock.Mock()
+        results = MagicMock()
         response = Response(results)
 
         self.assertEqual(

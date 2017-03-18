@@ -7,8 +7,8 @@ from unittest.mock import MagicMock
 
 from freezegun import freeze_time
 
-from tests.csafe_cmd import CsafeCmd
-from tests.device import PM3
+from tests.mocks.csafe_cmd import CsafeCmd
+from tests.mocks.device import PM3
 
 sys.modules['usb'] = MagicMock()
 sys.modules['usb.util'] = MagicMock()

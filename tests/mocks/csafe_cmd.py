@@ -1,15 +1,16 @@
 """
 tests.PyRow.Concept2.CsafeCmd
 """
-import mock
+import logging
+from unittest.mock import MagicMock
 
 
-class CsafeCmd(mock.Mock):
+class CsafeCmd(MagicMock):
     def __init__(self):
         """
         :return:
         """
-        mock.Mock.__init__(self)
+        MagicMock.__init__(self)
 
         self.read_call_count = 0
 
@@ -39,6 +40,5 @@ class CsafeCmd(mock.Mock):
         :param commands:
         :return:
         """
-        print
-        "Write: {0}".format(commands)
+        logging.debug("Write: %s", commands)
         return []

@@ -1,12 +1,13 @@
 """
 tests.PyRow.Concept2.Exception.BadStateException
 """
-import unittest
+from unittest import TestCase
 
-from tests.device import PM3
+from pyrow.exceptions import BadStateException
+from tests.mocks.device import PM3
 
 
-class BadStateExceptionTests(unittest.TestCase):
+class BadStateExceptionTests(TestCase):
     """
     Tests for BadStateException
     """
@@ -16,14 +17,13 @@ class BadStateExceptionTests(unittest.TestCase):
         :return:
         """
         self.device = PM3()
-        # TODO Fix BadStateException tests
-        # self.bad_state_exception = BadStateException(Exception)
+        self.bad_state_exception = BadStateException(self.device, "")
 
-        # def test_get_device(self):
-        #     """
-        #     :return:
-        #     """
-        #     self.assertEqual(
-        #         self.bad_state_exception.get_device(),
-        #         self.device
-        #     )
+    def test_get_device(self):
+        """
+        :return:
+        """
+        self.assertEqual(
+            self.bad_state_exception.get_device(),
+            self.device
+        )
