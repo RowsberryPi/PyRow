@@ -12,8 +12,8 @@ from tests.mocks.device import PM3
 
 sys.modules['usb'] = MagicMock()
 sys.modules['usb.util'] = MagicMock()
-sys.modules['pyrow.csafe_cmd'] = MagicMock()  # MagicMocking the file
-sys.modules['pyrow.csafe_cmd'].CsafeCmd = CsafeCmd()
+sys.modules['pyrow.csafe.cmd'] = MagicMock()  # MagicMocking the file
+sys.modules['pyrow.csafe.cmd'].CsafeCmd = CsafeCmd()
 
 
 def usb_util_get_string_side_effect(device, key):
@@ -65,7 +65,7 @@ class PerformanceMonitorTests(TestCase):
             }
         ]
 
-        sys.modules['pyrow.csafe_cmd'].CsafeCmd.set_responses(self.reset_responses)
+        sys.modules['pyrow.csafe.cmd'].CsafeCmd.set_responses(self.reset_responses)
         self.performance_monitor = PerformanceMonitor(self.device)
 
     def test_find(self):
@@ -73,7 +73,7 @@ class PerformanceMonitorTests(TestCase):
         PerformanceMonitor.find - it should return currently connected performance monitors
         :return:
         """
-        sys.modules['pyrow.csafe_cmd'].CsafeCmd.set_responses(
+        sys.modules['pyrow.csafe.cmd'].CsafeCmd.set_responses(
             self.reset_responses
         )
 
@@ -145,7 +145,7 @@ class PerformanceMonitorTests(TestCase):
         :return:
         """
         # It should return a Response object
-        sys.modules['pyrow.csafe_cmd'].CsafeCmd.set_responses([
+        sys.modules['pyrow.csafe.cmd'].CsafeCmd.set_responses([
             {
                 'CSAFE_GETSTATUS_CMD': [2]  # Idle state
             }
@@ -161,7 +161,7 @@ class PerformanceMonitorTests(TestCase):
         :return:
         """
         # It should return a Response object
-        sys.modules['pyrow.csafe_cmd'].CsafeCmd.set_responses([
+        sys.modules['pyrow.csafe.cmd'].CsafeCmd.set_responses([
             {
                 'CSAFE_GETSTATUS_CMD': [2]  # Idle state
             }
@@ -177,7 +177,7 @@ class PerformanceMonitorTests(TestCase):
         :return:
         """
         # It should return a Response object
-        sys.modules['pyrow.csafe_cmd'].CsafeCmd.set_responses([
+        sys.modules['pyrow.csafe.cmd'].CsafeCmd.set_responses([
             {
                 'CSAFE_GETSTATUS_CMD': [9]  # Offline state
             }
