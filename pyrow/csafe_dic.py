@@ -1,12 +1,12 @@
 # Unique Frame Flags
-Extended_Frame_Start_Flag = 0xF0
-Standard_Frame_Start_Flag = 0xF1
-Stop_Frame_Flag = 0xF2
-Byte_Stuffing_Flag = 0xF3
+EXTENDED_FRAME_START_FLAG = 0xF0
+STANDARD_FRAME_START_FLAG = 0xF1
+STOP_FRAME_FLAG = 0xF2
+BYTE_STUFFING_FLAG = 0xF3
 
 # 'COMMAND_NAME': [0xCmd_Id, [Bytes, ...]],
 
-cmds = {
+CMDS = {
     # Short Commands
     'CSAFE_GETSTATUS_CMD': [0x80, []],
     'CSAFE_RESET_CMD': [0x81, []],
@@ -68,7 +68,7 @@ cmds = {
 # resp[0xCmd_Id] = [COMMAND_NAME, [Bytes, ...]],
 # negative number for ASCII
 # use absolute max number for variable, (getid & getcaps)
-resp = {
+RESP = {
 
     # Response Data to Short Commands
     0x80: (['CSAFE_GETSTATUS_CMD', [0, ]]),  # Status

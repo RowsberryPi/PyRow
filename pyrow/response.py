@@ -1,4 +1,4 @@
-class Response(object):
+class Response(object):  # pylint: disable=R0904
     """
     Response
     """
@@ -16,11 +16,16 @@ class Response(object):
         "Offline"
     ]
 
-    rower_stroke = ["Wait for min speed", "Wait for acceleration", "Drive", "Dwelling", "Recovery"]
+    rower_stroke = [
+        "Wait for min speed",
+        "Wait for acceleration",
+        "Drive",
+        "Dwelling",
+        "Recovery"
+    ]
 
     def __init__(self, results):
         self.__results = results
-        pass
 
     def get_raw(self):
         """

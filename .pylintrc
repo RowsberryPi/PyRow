@@ -33,8 +33,7 @@ load-plugins=
 # can either give multiple identifier separated by comma (,) or put this option
 # multiple time (only on the command line, not in the configuration file where
 # it should appear only once).
-# Disabled E0202 as it is a bug at the moment (https://bitbucket.org/logilab/pylint/issue/414/false-positive-for-e0202-method-hidden)
-disable=E0202
+disable=C0111,I0011,I0012,W0142,W0212
 
 
 [REPORTS]
@@ -43,13 +42,18 @@ disable=E0202
 # (visual studio) and html
 output-format=colorized
 
+msg-template="{msg_id}:{line:4d},{column:2d}: {msg} ({symbol})"
+
+# Include message's id in output
+include-ids=yes
+
 # Put messages in a separate file for each module / package specified on the
 # command line instead of printing them on stdout. Reports (if any) will be
 # written in a file name "pylint_global.[txt|html]".
 files-output=no
 
 # Tells whether to display a full report or only the messages
-reports=yes
+reports=no
 
 # Python expression which should return a note less than 10 (10 is the highest
 # note). You have access to the variables errors warning, statement which
@@ -60,13 +64,10 @@ evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / stateme
 
 # Add a comment according to your evaluation note. This is used by the global
 # evaluation report (RP0004).
-comment=yes
+comment=no
 
 
 [BASIC]
-
-# Required attributes for module, separated by a comma
-required-attributes=
 
 # List of builtins function names that should not be used, separated by a comma
 bad-functions=map,filter,apply,input
@@ -110,6 +111,19 @@ bad-names=foo,bar,baz,toto,tutu,tata
 no-docstring-rgx=__.*__
 
 
+[FORMAT]
+
+# Maximum number of characters on a single line.
+max-line-length=100
+
+# Maximum number of lines in a module
+max-module-lines=2304
+
+# String used as indentation unit. This is usually " " (4 spaces) or "\t" (1
+# tab).
+indent-string='    '
+
+
 [VARIABLES]
 
 # Tells whether we should check for unused import in __init__ files.
@@ -144,17 +158,10 @@ zope=no
 generated-members=REQUEST,acl_users,aq_parent
 
 
-[FORMAT]
+[MISCELLANEOUS]
 
-# Maximum number of characters on a single line.
-max-line-length=120
-
-# Maximum number of lines in a module
-max-module-lines=1000
-
-# String used as indentation unit. This is usually " " (4 spaces) or "\t" (1
-# tab).
-indent-string='    '
+# List of note tags to take in consideration, separated by a comma.
+notes=FIXME,XXX,TODO
 
 
 [SIMILARITIES]
@@ -169,10 +176,13 @@ ignore-comments=yes
 ignore-docstrings=yes
 
 
-[MISCELLANEOUS]
+[CLASSES]
 
-# List of note tags to take in consideration, separated by a comma.
-notes=FIXME,XXX,TODO
+# List of method names used to declare (i.e. assign) instance attributes.
+defining-attr-methods=__init__,__new__,setUp
+
+# List of valid names for the first argument in a class method.
+valid-classmethod-first-arg=cls
 
 
 [IMPORTS]
@@ -196,48 +206,35 @@ int-import-graph=
 [DESIGN]
 
 # Maximum number of arguments for function / method
-max-args=5
+max-args=32
 
 # Argument names that match this expression will be ignored. Default to name
 # with leading underscore
 ignored-argument-names=_.*
 
 # Maximum number of locals for function / method body
-max-locals=15
+max-locals=32
 
 # Maximum number of return / yield for function / method body
-max-returns=6
+# max-returns=0
 
 # Maximum number of branch for function / method body
-max-branchs=12
+max-branches=32
 
 # Maximum number of statements in function / method body
-max-statements=50
+# max-statements=0
 
 # Maximum number of parents for a class (see R0901).
-max-parents=7
+max-parents=16
 
 # Maximum number of attributes for a class (see R0902).
-max-attributes=7
+max-attributes=32
 
 # Minimum number of public methods for a class (see R0903).
-min-public-methods=2
+min-public-methods=0
 
 # Maximum number of public methods for a class (see R0904).
-max-public-methods=20
-
-
-[CLASSES]
-
-# List of interface methods to ignore, separated by a comma. This is used for
-# instance to not check methods defines in Zope's Interface base class.
-ignore-iface-methods=isImplementedBy,deferred,extends,names,namesAndDescriptions,queryDescriptionFor,getBases,getDescriptionFor,getDoc,getName,getTaggedValue,getTaggedValueTags,isEqualOrExtendedBy,setTaggedValue,isImplementedByInstancesOf,adaptWith,is_implemented_by
-
-# List of method names used to declare (i.e. assign) instance attributes.
-defining-attr-methods=__init__,__new__,setUp
-
-# List of valid names for the first argument in a class method.
-valid-classmethod-first-arg=cls
+# max-public-methods=18
 
 
 [EXCEPTIONS]

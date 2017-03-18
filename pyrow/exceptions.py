@@ -9,6 +9,7 @@ class BadStateException(Exception):
         :param string state:
         :return:
         """
+        super(BadStateException, self).__init__(device, state)
         self.__device = device
         self.__state = state
 

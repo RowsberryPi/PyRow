@@ -151,7 +151,7 @@ class PerformanceMonitor(object):
 
         try:
             device.set_configuration()
-        except USBError as e:
+        except USBError:
             pass
 
         interface = device[0][(0, 0)]
@@ -224,10 +224,10 @@ class PerformanceMonitor(object):
             while not response:
                 transmission = self.__device.read(self.__in_address, length, timeout=20000)
                 response = CsafeCmd.read(transmission)
-        except Exception as e:
+        except Exception as ex:
             del PerformanceMonitor.KNOWN_PMS[self.__serial_number]
             usb.util.release_interface(self.__device, 0)
-            raise e
+            raise ex
 
         self.__lock.release()
 
@@ -368,7 +368,7 @@ class PerformanceMonitor(object):
         """
         Checks that value is an integer and within the specified range
         """
-        if type(value) is not int:
+        if not isinstance(value, int):
             raise TypeError(label)
         if not minimum <= value <= maximum:
             raise ValueError(label + " outside of range")
