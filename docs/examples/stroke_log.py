@@ -25,36 +25,36 @@ if __name__ == '__main__':
     # Loop until workout has begun
     workout = erg.get_workout()
     logging.info("Waiting for workout to start.")
-    while workout['state'] == 0:
+    while workout.get_status() == 0:
         time.sleep(1)
         workout = erg.get_workout()
     logging.info("Workout has begun")
 
     # Loop until workout ends
-    while workout['state'] == 1:
+    while workout.get_status() == 1:
 
         forceplot = erg.get_force_plot()
         # Loop while waiting for drive
-        while forceplot['strokestate'] != 2 and workout['state'] == 1:
-            # ToDo: sleep?
+        while forceplot.get_stroke_state() != 2 and workout.get_status() == 1:
+            # TODO: sleep?
             forceplot = erg.get_force_plot()
             workout = erg.get_workout()
 
         # Record force data during the drive
-        force = forceplot['forceplot']  # start of pull (when strokestate first changed to 2)
+        force = forceplot.get_force_plot()  # start of pull (when strokestate first changed to 2)
         monitor = erg.get_monitor()  # get monitor data for start of stroke
         # Loop during drive
-        while forceplot['strokestate'] == 2:
+        while forceplot.get_stroke_state == 2:
             # ToDo: sleep?
             forceplot = erg.get_force_plot()
-            force.extend(forceplot['forceplot'])
+            force.extend(forceplot.get_force_plot())
 
         forceplot = erg.get_force_plot()
-        force.extend(forceplot['forceplot'])
+        force.extend(forceplot.get_force_plot())
 
         # Write data to write_file
-        workoutdata = str(monitor['time']) + "," + str(monitor['distance']) + "," + \
-                      str(monitor['spm']) + "," + str(monitor['pace']) + ","
+        workoutdata = str(monitor.get_time()) + "," + str(monitor.get_distance()) + "," + \
+                      str(monitor.get_spm()) + "," + str(monitor.get_pace()) + ","
 
         forcedata = ",".join([str(f) for f in force])
         write_file.write(workoutdata + forcedata + '\n')

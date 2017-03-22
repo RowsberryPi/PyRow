@@ -101,13 +101,23 @@ class PerformanceMonitor(object):
     SET_DATE = 'CSAFE_SETDATE_CMD'
 
     GET_STATUS = 'CSAFE_GETSTATUS_CMD'
+    GET_USER_ID = 'CSAFE_GETID_CMD'
+    GET_WORKOUT_TYPE = 'CSAFE_PM_GET_WORKOUTTYPE'
+    GET_WORKOUT_STATE = 'CSAFE_PM_GET_WORKOUTSTATE'
+    GET_INTERVAL_TYPE = 'CSAFE_PM_GET_INTERVALTYPE'
+    GET_INTERVAL_COUNT = 'CSAFE_PM_GET_WORKOUTINTERVALCOUNT'
     GET_TIME = 'CSAFE_PM_GET_WORKTIME'
     GET_DISTANCE = 'CSAFE_PM_GET_WORKDISTANCE'
-    GET_CADENCE = 'CSAFE_PM_GETCADENCE_CMD'
+    GET_CADENCE = 'CSAFE_GETCADENCE_CMD'
     GET_POWER = 'CSAFE_GETPOWER_CMD'
+    GET_FORCE_PLOT_DATA = 'CSAFE_PM_GET_FORCEPLOTDATA'
     GET_STROKE_STATE = 'CSAFE_PM_GET_STROKESTATE'
     GET_PACE = 'CSAFE_GETPACE_CMD'
     GET_CALORIES = 'CSAFE_GETCALORIES_CMD'
+    GET_HEART_RATE = 'CSAFE_GETHRCUR_CMD'
+    GET_FW_VERSION = 'CSAFE_GETVERSION_CMD'
+    GET_SERIAL = 'CSAFE_GETSERIAL_CMD'
+    GET_CAPABILITIES = 'CSAFE_GETCAPS_CMD'
 
     GO_FINISHED = 'CSAFE_GOFINISHED_CMD'
     GO_IDLE = 'CSAFE_GOIDLE_CMD'
@@ -120,6 +130,11 @@ class PerformanceMonitor(object):
     SET_SPLIT_DURATION = 'CSAFE_PM_SET_SPLITDURATION'
     SET_POWER = 'CSAFE_SETPOWER_CMD'
     SET_PROGRAM = 'CSAFE_SETPROGRAM_CMD'
+
+    GET_ERG_INFORMATION = [GET_FW_VERSION, GET_SERIAL, GET_CAPABILITIES, 0x00]
+    GET_WORKOUT = [GET_USER_ID, GET_WORKOUT_TYPE, GET_WORKOUT_STATE, GET_INTERVAL_TYPE, GET_INTERVAL_COUNT]
+    GET_FORCE_PLOT = [GET_FORCE_PLOT_DATA, 32, GET_STROKE_STATE]
+    GET_SCREEN = [GET_TIME, GET_DISTANCE, GET_CADENCE, GET_POWER, GET_CALORIES, GET_HEART_RATE]
 
     KNOWN_PMS = {}
 
@@ -174,8 +189,8 @@ class PerformanceMonitor(object):
         """
         now = datetime.datetime.now()
 
-        command = [PerformanceMonitor.SET_TIME, now.hour, now.minute, now.second]
-        command.extend([PerformanceMonitor.SET_DATE, (now.year - 1900), now.month, now.day])
+        command = [self.SET_TIME, now.hour, now.minute, now.second]
+        command.extend([self.SET_DATE, (now.year - 1900), now.month, now.day])
 
         self.send_commands(command)
 
@@ -201,7 +216,7 @@ class PerformanceMonitor(object):
         """
         :return string:
         """
-        return PerformanceMonitor.PM_VERSION[self.__device.idProduct]
+        return self.PM_VERSION[self.__device.idProduct]
 
     def send_commands(self, commands):
         """
@@ -211,8 +226,8 @@ class PerformanceMonitor(object):
         self.__lock.acquire()
         now = time.time()
         delta = now - self.__last_message
-        if delta < PerformanceMonitor.MIN_FRAME_GAP:
-            time.sleep(PerformanceMonitor.MIN_FRAME_GAP - delta)
+        if delta < self.MIN_FRAME_GAP:
+            time.sleep(self.MIN_FRAME_GAP - delta)
 
         try:
             c_safe = CsafeCmd.write(commands)
@@ -225,7 +240,7 @@ class PerformanceMonitor(object):
                 transmission = self.__device.read(self.__in_address, length, timeout=20000)
                 response = CsafeCmd.read(transmission)
         except Exception as ex:
-            del PerformanceMonitor.KNOWN_PMS[self.__serial_number]
+            del self.KNOWN_PMS[self.__serial_number]
             usb.util.release_interface(self.__device, 0)
             raise ex
 
@@ -233,13 +248,47 @@ class PerformanceMonitor(object):
 
         return Response(response)
 
+    def get_monitor(self, force_plot=False):
+        """
+        Returns values from the monitor that relate to the current workout,
+        optionally returns force plot data and stroke state
+        :return Response:
+        """
+        command = self.GET_SCREEN
+
+        if force_plot:
+            command.extend(self.GET_FORCE_PLOT)
+
+        return self.send_commands(command)
+
+    def get_force_plot(self):
+        """
+        Returns force plot data and stroke state
+        :return Response:
+        """
+        return self.send_commands(self.GET_FORCE_PLOT)
+
+    def get_workout(self):
+        """
+        Returns overall workout data
+        :return Response:
+        """
+        return self.send_commands(self.GET_WORKOUT)
+
+    def get_erg(self):
+        """
+        Returns all erg data that is not related to the workout
+        :return Response:
+        """
+        return self.send_commands(self.GET_ERG_INFORMATION)
+
     def get_status(self):
         """
         Gets the current status from the Performance Monitor
         :return Response:
         """
         return self.send_commands([
-            PerformanceMonitor.GET_STATUS
+            self.GET_STATUS
         ])
 
     def reset(self):
@@ -250,28 +299,28 @@ class PerformanceMonitor(object):
         response = self.get_status()
         logging.info("Current Status: %s", response.get_status_message())
 
-        manual = response.get_status() == PerformanceMonitor.STATE_MANUAL
-        offline = response.get_status() == PerformanceMonitor.STATE_OFFLINE
+        manual = response.get_status() == self.STATE_MANUAL
+        offline = response.get_status() == self.STATE_OFFLINE
 
         if manual or offline:
-            del PerformanceMonitor.KNOWN_PMS[self.__serial_number]
+            del self.KNOWN_PMS[self.__serial_number]
             usb.util.release_interface(self.__device, 0)
             raise BadStateException(self, response.get_status_message())
 
-        finished = response.get_status() == PerformanceMonitor.STATE_FINISHED
-        ready = response.get_status() == PerformanceMonitor.STATE_READY
+        finished = response.get_status() == self.STATE_FINISHED
+        ready = response.get_status() == self.STATE_READY
 
         if not finished and not ready:
-            self.send_commands([PerformanceMonitor.GO_FINISHED])
-            while self.get_status().get_status() != PerformanceMonitor.STATE_FINISHED:
+            self.send_commands([self.GO_FINISHED])
+            while self.get_status().get_status() != self.STATE_FINISHED:
                 logging.debug("Waiting for finish.")
 
-        self.send_commands([PerformanceMonitor.GO_IDLE])
-        while self.get_status().get_status() != PerformanceMonitor.STATE_IDLE:
+        self.send_commands([self.GO_IDLE])
+        while self.get_status().get_status() != self.STATE_IDLE:
             logging.debug("Waiting for idle.")
 
-        self.send_commands([PerformanceMonitor.GO_READY])
-        while self.get_status().get_status() != PerformanceMonitor.STATE_READY:
+        self.send_commands([self.GO_READY])
+        while self.get_status().get_status() != self.STATE_READY:
             logging.debug("Waiting for ready.")
 
     def set_workout(self,
@@ -310,12 +359,12 @@ class PerformanceMonitor(object):
                 # checks if workout is < 20 seconds
                 raise ValueError("Workout too short")
 
-            command.extend([PerformanceMonitor.SET_WORKOUT, workout_time[0],
+            command.extend([self.SET_WORKOUT, workout_time[0],
                             workout_time[1], workout_time[2]])
 
         elif distance is not None:
             self.__validate_value(distance, "Distance", 100, 50000)
-            command.extend([PerformanceMonitor.SET_HORIZONTAL, distance, 36])  # 36 = meters
+            command.extend([self.SET_HORIZONTAL, distance, 36])  # 36 = meters
 
         # Set Split
         if split is not None:
@@ -331,12 +380,12 @@ class PerformanceMonitor(object):
                     max(2000, min_split),
                     time_raw * 100
                 )
-                command.extend([PerformanceMonitor.SET_SPLIT_DURATION, 0, split_time])
+                command.extend([self.SET_SPLIT_DURATION, 0, split_time])
             elif distance is not None and program is None:
                 # split distance that will occur 30 workout_times (m)
                 min_split = int(distance / 30 + 0.5)
                 self.__validate_value(split, "Split distance", max(100, min_split), distance)
-                command.extend([PerformanceMonitor.SET_SPLIT_DURATION, 128, split])
+                command.extend([self.SET_SPLIT_DURATION, 128, split])
             else:
                 raise ValueError("Cannot set split for current goal")
 
@@ -346,7 +395,7 @@ class PerformanceMonitor(object):
         elif cal_pace is not None:
             power_pace = int(round((cal_pace - 300.) / (4.0 * 0.8604)))
         if power_pace is not None:
-            command.extend([PerformanceMonitor.SET_POWER, power_pace, 88])  # 88 = watts
+            command.extend([self.SET_POWER, power_pace, 88])  # 88 = watts
 
         command.extend([self.SET_PROGRAM, program_num, 0, self.GO_IN_USE])
 
@@ -383,15 +432,15 @@ class PerformanceMonitor(object):
         """
         attempts = 0
         while attempts < max_attempts:
-            in_use = self.get_status().get_status() == PerformanceMonitor.STATE_IN_USE
+            in_use = self.get_status().get_status() == self.STATE_IN_USE
 
-            if PerformanceMonitor.SET_HORIZONTAL in command and in_use:
-                if self.send_commands([PerformanceMonitor.GET_DISTANCE]).get_distance() == distance:
+            if self.SET_HORIZONTAL in command and in_use:
+                if self.send_commands([self.GET_DISTANCE]).get_distance() == distance:
                     return True
 
-            elif PerformanceMonitor.SET_WORKOUT in command and in_use:
+            elif self.SET_WORKOUT in command and in_use:
                 length = workout_time[0] * 60 * 60 + workout_time[1] * 60 + workout_time[2]
-                if self.send_commands([PerformanceMonitor.GET_TIME]).get_time() == length:
+                if self.send_commands([self.GET_TIME]).get_time() == length:
                     return True
 
             attempts += 1
