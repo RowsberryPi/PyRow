@@ -1,10 +1,8 @@
-# PyRow
+PyRow
+=====
 
-*NOTE: This code has not been thoroughly tested and may not function as advertised.
-This documentation my contain mistakes or incomplete information.
-Please report and findings to the author so that they may be addressed in a stable release.*
+[![Build Status](https://travis-ci.org/JamieMagee/PyRow.svg?branch=master)](https://travis-ci.org/JamieMagee/PyRow)
 
-## ABOUT
 PyRow is python code that allows one to interact with a Concept 2 Rowing Ergometer PM3 or PM4 monitor using python.  PyRow sends and receives information from the Ergometer using csafe commands or built in functions (listed below).  The goal of PyRow is to allow for multiple platforms to have easy access to the Ergometer.
 
 For an explanation of the csafe commands please use the following documentation:
@@ -15,14 +13,6 @@ For an explanation of the csafe commands please use the following documentation:
 
 
 - [Communications Specification for Fitness Equipment](http://www.fitlinxx.com/CSAFE/)
-
-
-Site: http://www.newhavenrowingclub.org/pyrow/
-
-## LICENSE
-Copyright (c) 2011 - 2015, Sam Gambrell
-
-Licensed under the Simplified BSD License.
 
 
 ## REQUIREMENTS
@@ -169,13 +159,8 @@ Include PyRow in your code with the following line of code:
     logging.info("Stroke Pace = %s", str(result['CSAFE_GETPACE_CMD'][0]))
     logging.info("Stroke Units = " + str(result['CSAFE_GETPACE_CMD'][1]))
 
-## FILES
-`strokelog.py` - an example program that records time, distance, strokes per min, pace, and force plot data for each stroke to a csv file
 
-`statshow.py` - an example program that displays the current machine, workout, and stroke status
+## LICENSE
+Copyright (c) 2011 - 2015, Sam Gambrell
 
-`pyrow.py` - file to be loaded by user, used to connect to erg and send/receive data
-
-`csafe_cmd.py` - converts between csafe commands and byte arrays for pyrow.py, user does not need to load this file directly
-
-`csafe_dic.py` - contains dictionaries of the csafe commands to be used by csafe_cmd.py, user does not need to load this file directly
+Licensed under the Simplified BSD License.
