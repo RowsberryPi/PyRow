@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
         # Write data to write_file
         workoutdata = str(monitor.get_time()) + "," + str(monitor.get_distance()) + "," + \
-                      str(monitor.get_spm()) + "," + str(monitor.get_pace()) + ","
+            str(monitor.get_spm()) + "," + str(monitor.get_pace()) + ","
 
         forcedata = ",".join([str(f) for f in force])
         write_file.write(workoutdata + forcedata + '\n')

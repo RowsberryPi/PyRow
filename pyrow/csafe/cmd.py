@@ -1,3 +1,4 @@
+# pylint: skip-file
 """Provide the CsafeCmd class."""
 
 import logging
