@@ -11,7 +11,9 @@ Installation
 
 PyRow is supported on Python 3.3+. The recommended way to install PyRow is via [pip](https://pypi.python.org/pypi/pip)
 
-`pip install pyrow`
+```python
+pip install pyrow
+```
 
 For instructions on installing python and pip see "The Hitchhiker's Guide to Python" [Installation Guides.](http://docs.python-guide.org/en/latest/starting/installation/)
 
