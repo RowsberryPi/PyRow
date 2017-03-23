@@ -11,5 +11,5 @@ class ConstTests(TestCase):
 
     def test_semantic_version(self):
         self.assertTrue(
-            self.SEM_VER.fullmatch(const.__version__)
+            self.SEM_VER.match(const.__version__)
         )
