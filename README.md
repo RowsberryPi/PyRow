@@ -50,6 +50,7 @@ License
 -------
 
 Copyright (c) 2017, Jamie Magee
+
 Copyright (c) 2011 - 2015, Sam Gambrell
 
 Licensed under the Simplified BSD License.
