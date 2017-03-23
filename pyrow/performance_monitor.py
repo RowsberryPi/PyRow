@@ -112,6 +112,7 @@ class PerformanceMonitor(object):
     GET_POWER = 'CSAFE_GETPOWER_CMD'
     GET_FORCE_PLOT_DATA = 'CSAFE_PM_GET_FORCEPLOTDATA'
     GET_STROKE_STATE = 'CSAFE_PM_GET_STROKESTATE'
+    GET_STROKE_STATS = 'CSAFE_PM_GET_STROKESTATS'
     GET_PACE = 'CSAFE_GETPACE_CMD'
     GET_CALORIES = 'CSAFE_GETCALORIES_CMD'
     GET_HEART_RATE = 'CSAFE_GETHRCUR_CMD'
@@ -132,9 +133,11 @@ class PerformanceMonitor(object):
     SET_PROGRAM = 'CSAFE_SETPROGRAM_CMD'
 
     GET_ERG_INFORMATION = [GET_FW_VERSION, GET_SERIAL, GET_CAPABILITIES, 0x00]
-    GET_WORKOUT = [GET_USER_ID, GET_WORKOUT_TYPE, GET_WORKOUT_STATE, GET_INTERVAL_TYPE, GET_INTERVAL_COUNT]
+    GET_WORKOUT = [GET_USER_ID, GET_WORKOUT_TYPE, GET_WORKOUT_STATE,
+                   GET_INTERVAL_TYPE, GET_INTERVAL_COUNT]
     GET_FORCE_PLOT = [GET_FORCE_PLOT_DATA, 32, GET_STROKE_STATE]
     GET_SCREEN = [GET_TIME, GET_DISTANCE, GET_CADENCE, GET_POWER, GET_CALORIES, GET_HEART_RATE]
+    GET_EXTRA_METRICS = [GET_STROKE_STATS, 32, GET_STROKE_STATE]
 
     KNOWN_PMS = {}
 
@@ -248,7 +251,7 @@ class PerformanceMonitor(object):
 
         return Response(response)
 
-    def get_monitor(self, force_plot=False):
+    def get_monitor(self, force_plot=False, extra_metrics=False):
         """
         Returns values from the monitor that relate to the current workout,
         optionally returns force plot data and stroke state
@@ -258,6 +261,9 @@ class PerformanceMonitor(object):
 
         if force_plot:
             command.extend(self.GET_FORCE_PLOT)
+
+        if extra_metrics:
+            command.extend(self.GET_EXTRA_METRICS)
 
         return self.send_commands(command)
 

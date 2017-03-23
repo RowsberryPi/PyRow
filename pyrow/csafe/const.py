@@ -48,21 +48,22 @@ CMDS = {
 
     # PM3 Specific Short Commands
     'CSAFE_PM_GET_WORKOUTTYPE': [0x89, [], 0x1A],
-    'CSAFE_PM_GET_DRAGFACTOR': [0xC1, [], 0x1A],
-    'CSAFE_PM_GET_STROKESTATE': [0xBF, [], 0x1A],
+    'CSAFE_PM_GET_WORKOUTSTATE': [0x8D, [], 0x1A],
+    'CSAFE_PM_GET_INTERVALTYPE': [0x8E, [], 0x1A],
+    'CSAFE_PM_GET_WORKOUTINTERVALCOUNT': [0x9F, [], 0x1A],
     'CSAFE_PM_GET_WORKTIME': [0xA0, [], 0x1A],
     'CSAFE_PM_GET_WORKDISTANCE': [0xA3, [], 0x1A],
+    'CSAFE_PM_GET_STROKESTATE': [0xBF, [], 0x1A],
+    'CSAFE_PM_GET_DRAGFACTOR': [0xC1, [], 0x1A],
     'CSAFE_PM_GET_ERRORVALUE': [0xC9, [], 0x1A],
-    'CSAFE_PM_GET_WORKOUTSTATE': [0x8D, [], 0x1A],
-    'CSAFE_PM_GET_WORKOUTINTERVALCOUNT': [0x9F, [], 0x1A],
-    'CSAFE_PM_GET_INTERVALTYPE': [0x8E, [], 0x1A],
     'CSAFE_PM_GET_RESTTIME': [0xCF, [], 0x1A],
 
     # PM3 Specific Long Commands
     'CSAFE_PM_SET_SPLITDURATION': [0x05, [1, 4], 0x1A],  # Time(0)/Distance(128), Duration
-    'CSAFE_PM_GET_FORCEPLOTDATA': [0x6B, [1, ], 0x1A],  # Block Length
     'CSAFE_PM_SET_SCREENERRORMODE': [0x27, [1, ], 0x1A],  # Disable(0)/Enable(1)
-    'CSAFE_PM_GET_HEARTBEATDATA': [0x6C, [1, ], 0x1A]  # Block Length
+    'CSAFE_PM_GET_FORCEPLOTDATA': [0x6B, [1, ], 0x1A],  # Block Length
+    'CSAFE_PM_GET_HEARTBEATDATA': [0x6C, [1, ], 0x1A],  # Block Length
+    'CSAFE_PM_GET_STROKESTATS': [0x6E, [2, ], 0x1A],
 }
 
 # resp[0xCmd_Id] = [COMMAND_NAME, [Bytes, ...]],
@@ -129,5 +130,7 @@ RESP = {
         1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]],  # Bytes read, data ...
     0x1A27: (['CSAFE_PM_SET_SCREENERRORMODE', [0, ]]),  # No variables returned !! double check
     0x1A6C: (['CSAFE_PM_GET_HEARTBEATDATA', [
-        1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]])  # Bytes read, data ...
+        1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]),  # Bytes read, data ...
+    0x1A6E: (['CSAFE_PM_GET_STROKESTATS', [
+        2, 1, 2, 1, 2, 2, 2, 2, 2]])  # Bytes read, data ...
 }
