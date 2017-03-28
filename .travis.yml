@@ -1,22 +1,31 @@
 after_success: coveralls
 cache: pip
 install:
-  - pip install coveralls flake8 pydocstyle pylint
-  - python setup.py install
+- pip install coveralls flake8 pydocstyle pylint
+- python setup.py install
 language: python
 matrix:
   allow_failures:
-    - python: nightly
+  - python: nightly
   fast_finish: true
 python:
-  - 3.3
-  - 3.4
-  - 3.5
-  - 3.6
-  - nightly
+- 3.3
+- 3.4
+- 3.5
+- 3.6
+- nightly
 sudo: false
 script:
-  - flake8 --exclude=docs
-#  - pydocstyle pyrow
-  - pylint --rcfile=.pylintrc pyrow
-  - coverage run --source=pyrow setup.py test
+- flake8 --exclude=docs
+- pylint --rcfile=.pylintrc pyrow
+- coverage run --source=pyrow setup.py test
+deploy:
+  provider: pypi
+  user: Jammie
+  password:
+    secure: J1V/ZtitZml6rJMCs9K6Ih8pHc77WZsDZ8UY8QYYclusQxsnOOY7UHfsFsyI62+A21TvnJ6uQ2JgY04SJSUWEb4vtOrcBriBZzhMp1/WBip4iz3LAn2kbZbBo1ThW25k8GPqJSRrVHOI/XxF/DC2ri63cBPMomiwnszIWiwhqJBvYgx49+bt+HsWnEeLZ1gZhJBjD0g40FIfsjQGZkk5WhvORyfYKURpueXVtzuF8VK0UA34VnqJcL69LejLHMzR0QJ8fkIML1uszdyLW16dcJ1aMA2LugfzHo67xqu9VoyKswtUHbB34VhrF1aCsi472kWUusZJV84GGqWesFHeeicczohGvbIGuWz05JzWnmc3opKoHRAG2fVgKYpW3paG12p1r1KteC/dYOwaK7QdyzI7Ivd2qCJvGmu16PiXvyAIXY+zacSC18w4btWWsyx5LptdkY+m1X1az9/bz5eHOO2pWZhCYkPfF4LT7xs0x90KQucMCTQnyzf5l19rYX8P82L064jBAXBVya0ocmX1QIW7FE7LebNUyWA2+ZdSyvwvM46D/PgyU61LD9PAT8HDIX6nD9ZaIR0ShlxXaQHk9LT+q2W3ksnK/8fr+b3IoU+bFm/PT76oXiVOQUFR6L8lnbaNNFXwB10C/3P5s9sxMt2cWELCo2WGbngZIwm3h/U=
+  on:
+    tags: true
+    branch: master
+    distributions: sdist bdist_wheel
+    repo: JamieMagee/PyRow
