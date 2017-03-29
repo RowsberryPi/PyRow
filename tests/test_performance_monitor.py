@@ -35,6 +35,7 @@ from pyrow.exceptions import BadStateException, RetryLimitException  # noqa E402
 from pyrow.performance_monitor import PerformanceMonitor  # noqa E402
 from pyrow.response import Response  # noqa E402
 
+
 class PerformanceMonitorTests(TestCase):
     """
     Tests for PerformanceMonitor
