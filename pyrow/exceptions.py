@@ -36,6 +36,7 @@ class RetryLimitException(Exception):
         :param string waiting_for:
         :return:
         """
+        super(RetryLimitException, self).__init__(waiting_for)
         self.__waiting_for = waiting_for
 
     def __str__(self):
