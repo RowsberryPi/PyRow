@@ -12,7 +12,7 @@ import usb.util
 from usb import USBError
 
 from pyrow.csafe.cmd import CsafeCmd
-from pyrow.exceptions import BadStateException
+from pyrow.exceptions import BadStateException, RetryLimitException
 from pyrow.response import Response
 
 
@@ -138,6 +138,9 @@ class PerformanceMonitor(object):
     GET_FORCE_PLOT = [GET_FORCE_PLOT_DATA, 32, GET_STROKE_STATE]
     GET_SCREEN = [GET_TIME, GET_DISTANCE, GET_CADENCE, GET_POWER, GET_CALORIES, GET_HEART_RATE]
     GET_EXTRA_METRICS = [GET_STROKE_STATS, 32, GET_STROKE_STATE]
+
+    RESET_RETRY_LIMIT = 10
+    RESET_WAIT_MAX = 0.5
 
     KNOWN_PMS = {}
 
@@ -293,9 +296,19 @@ class PerformanceMonitor(object):
         Gets the current status from the Performance Monitor
         :return Response:
         """
-        return self.send_commands([
+        response = self.send_commands([
             self.GET_STATUS
         ])
+
+        manual = response.get_status() == self.STATE_MANUAL
+        offline = response.get_status() == self.STATE_OFFLINE
+
+        if manual or offline:
+            del self.KNOWN_PMS[self.__serial_number]
+            usb.util.release_interface(self.__device, 0)
+            raise BadStateException(self, response.get_status_message())
+
+        return response
 
     def reset(self):
         """
@@ -303,7 +316,8 @@ class PerformanceMonitor(object):
         :return:
         """
         response = self.get_status()
-        logging.info("Current Status: %s", response.get_status_message())
+        logging.debug("Current Status: %s on %s", response.get_status_message(),
+                      self.__serial_number)
 
         manual = response.get_status() == self.STATE_MANUAL
         offline = response.get_status() == self.STATE_OFFLINE
@@ -318,16 +332,52 @@ class PerformanceMonitor(object):
 
         if not finished and not ready:
             self.send_commands([self.GO_FINISHED])
-            while self.get_status().get_status() != self.STATE_FINISHED:
-                logging.debug("Waiting for finish.")
+            retries = 0
+            while True:
+                status = self.get_status().get_status()
+                if status == self.STATE_FINISHED:
+                    logging.debug("Finished: %s", self.__serial_number)
+                    break
+                else:
+                    logging.debug("Waiting for Finish (currently: %d) %d/%d on %s", status,
+                                  retries, self.RESET_RETRY_LIMIT, self.__serial_number)
+                    time.sleep(self.MIN_FRAME_GAP)
+                    retries += 1
+                    if retries >= self.RESET_RETRY_LIMIT:
+                        raise RetryLimitException(
+                            "Not Finished on {0}, got {1}".format(self.__serial_number, status))
 
         self.send_commands([self.GO_IDLE])
-        while self.get_status().get_status() != self.STATE_IDLE:
-            logging.debug("Waiting for idle.")
+        retries = 0
+        while True:
+            status = self.get_status().get_status()
+            if status == self.STATE_IDLE:
+                logging.debug("Idle: %s", self.__serial_number)
+                break
+            else:
+                logging.debug("Waiting for Idle (currently: %d) %d/%d on %s", status,
+                              retries, self.RESET_RETRY_LIMIT, self.__serial_number)
+                time.sleep(self.MIN_FRAME_GAP)
+                retries += 1
+                if retries >= self.RESET_RETRY_LIMIT:
+                    raise RetryLimitException(
+                        "Not Idle on {0}, got {1}".format(self.__serial_number, status))
 
         self.send_commands([self.GO_READY])
-        while self.get_status().get_status() != self.STATE_READY:
-            logging.debug("Waiting for ready.")
+        retries = 0
+        while True:
+            status = self.get_status().get_status()
+            if status == self.STATE_READY:
+                logging.debug("Ready: %s", self.__serial_number)
+                break
+            else:
+                logging.debug("Waiting for Ready (currently: %d) %d/%d on %s", status,
+                              retries, self.RESET_RETRY_LIMIT, self.__serial_number)
+                time.sleep(self.MIN_FRAME_GAP)
+                retries += 1
+                if retries >= self.RESET_RETRY_LIMIT:
+                    raise RetryLimitException(
+                        "Not Ready on {0}, got {1}".format(self.__serial_number, status))
 
     def set_workout(self,
                     program=None,
@@ -343,6 +393,7 @@ class PerformanceMonitor(object):
         """
 
         self.reset()
+        time.sleep(self.RESET_WAIT_MAX)
         command = []
 
         # Set Workout Goal
@@ -363,7 +414,7 @@ class PerformanceMonitor(object):
 
             if workout_time[0] == 0 and workout_time[1] == 0 and workout_time[2] < 20:
                 # checks if workout is < 20 seconds
-                raise ValueError("Workout too short")
+                raise ValueError("Workout too short on {0}".format(self.__serial_number))
 
             command.extend([self.SET_WORKOUT, workout_time[0],
                             workout_time[1], workout_time[2]])
@@ -393,7 +444,8 @@ class PerformanceMonitor(object):
                 self.__validate_value(split, "Split distance", max(100, min_split), distance)
                 command.extend([self.SET_SPLIT_DURATION, 128, split])
             else:
-                raise ValueError("Cannot set split for current goal")
+                raise ValueError(
+                    "Cannot set split for current goal on {0}".format(self.__serial_number))
 
         # Set Pace
         if pace is not None:
@@ -406,8 +458,10 @@ class PerformanceMonitor(object):
         command.extend([self.SET_PROGRAM, program_num, 0, self.GO_IN_USE])
 
         self.send_commands(command)
+        time.sleep(PerformanceMonitor.RESET_WAIT_MAX)
 
         if not self.__wait_for_workout(command, workout_time, distance):
+            logging.warning("Failed to set workout on %s", self.__serial_number)
             self.set_workout(
                 program,
                 workout_time,
@@ -429,7 +483,7 @@ class PerformanceMonitor(object):
             raise ValueError(label + " outside of range")
         return True
 
-    def __wait_for_workout(self, command, workout_time, distance, max_attempts=5):
+    def __wait_for_workout(self, command, workout_time, distance, max_attempts=25):
         """
         :param command:
         :param workout_time:
@@ -441,13 +495,25 @@ class PerformanceMonitor(object):
             in_use = self.get_status().get_status() == self.STATE_IN_USE
 
             if self.SET_HORIZONTAL in command and in_use:
-                if self.send_commands([self.GET_DISTANCE]).get_distance() == distance:
+                erg_distance = self.send_commands([self.GET_DISTANCE]).get_distance()
+                if erg_distance == distance:
+                    logging.debug("Workout set on erg %s in %ds", self.__serial_number,
+                                  attempts * self.RESET_WAIT_MAX)
                     return True
+                logging.debug("Erg %d Distance: %d, expected: %d. Try %d/%d", self.__serial_number,
+                              erg_distance, distance, attempts, max_attempts)
 
             elif self.SET_WORKOUT in command and in_use:
                 length = workout_time[0] * 60 * 60 + workout_time[1] * 60 + workout_time[2]
-                if self.send_commands([self.GET_TIME]).get_time() == length:
+                erg_time = self.send_commands([self.GET_TIME]).get_time()
+                if erg_time == length:
+                    logging.debug("Workout set on erg %s in %ds", self.__serial_number,
+                                  attempts * self.RESET_WAIT_MAX)
                     return True
+                logging.debug("Erg %d Distance: %d, expected: %d. Try %d/%d", self.__serial_number,
+                              erg_time, length, attempts, max_attempts)
+
+            time.sleep(self.RESET_WAIT_MAX)
 
             attempts += 1
         return False

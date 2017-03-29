@@ -33,6 +33,7 @@ class CsafeCmd(MagicMock):
             raise Exception("Not enough mocked responses")
         response = self.__responses[self.read_call_count]
         self.read_call_count += 1
+        logging.debug("Read: %s", response)
         return response
 
     def write(self, commands):
