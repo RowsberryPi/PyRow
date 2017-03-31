@@ -28,4 +28,4 @@ deploy:
     tags: true
     branch: master
     distributions: sdist bdist_wheel
-    repo: JamieMagee/PyRow
+    repo: RowsberryPi/PyRow

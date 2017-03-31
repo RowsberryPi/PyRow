@@ -1,9 +1,9 @@
 PyRow
 =====
 
-[![Build Status](https://travis-ci.org/JamieMagee/PyRow.svg?branch=master)](https://travis-ci.org/JamieMagee/PyRow)
-[![Coverage Status](https://coveralls.io/repos/github/JamieMagee/PyRow/badge.svg?branch=master)](https://coveralls.io/github/JamieMagee/PyRow?branch=master)
-[![License](https://img.shields.io/badge/License-BSD%202--Clause-orange.svg)](https://opensource.org/licenses/BSD-2-Clause)
+[![Build Status](https://travis-ci.org/RowsberryPi/PyRow.svg?branch=master)](https://travis-ci.org/RowsberryPi/PyRow)
+[![Coverage Status](https://coveralls.io/repos/github/RowsberryPi/PyRow/badge.svg?branch=master)](https://coveralls.io/github/RowsberryPi/PyRow?branch=master)
+[![License](https://img.shields.io/badge/License-BSD%202--Clause-blue.svg)](https://opensource.org/licenses/BSD-2-Clause)
 
 PyRow is a Python package that allows one to interact with a Concept2 PM3, PM4 or PM5 monitors using python. PyRow aims to be easy to use and allow anyone to interact with Concept2 indoor rowers.
 
@@ -49,9 +49,5 @@ TODO
 
 License
 -------
-
-Copyright (c) 2017, Jamie Magee
-
-Copyright (c) 2011 - 2015, Sam Gambrell
 
 Licensed under the Simplified BSD License.
