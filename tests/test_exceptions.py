@@ -17,7 +17,7 @@ class BadStateExceptionTests(TestCase):
         :return:
         """
         self.device = PM3()
-        self.bad_state_exception = BadStateException(self.device, "")
+        self.bad_state_exception = BadStateException(self.device, '')
 
     def test_get_device(self):
         """

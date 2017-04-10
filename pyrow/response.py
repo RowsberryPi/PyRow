@@ -4,24 +4,24 @@ class Response(object):  # pylint: disable=R0904
     """
 
     rower_state = [
-        "Error",
-        "Ready",
-        "Idle",
-        "Have ID",
-        "N/A",
-        "In Use",
-        "Pause",
-        "Finished",
-        "Manual",
-        "Offline"
+        'Error',
+        'Ready',
+        'Idle',
+        'Have ID',
+        'N/A',
+        'In Use',
+        'Pause',
+        'Finished',
+        'Manual',
+        'Offline'
     ]
 
     rower_stroke = [
-        "Wait for min speed",
-        "Wait for acceleration",
-        "Drive",
-        "Dwelling",
-        "Recovery"
+        'Wait for min speed',
+        'Wait for acceleration',
+        'Drive',
+        'Dwelling',
+        'Recovery'
     ]
 
     def __init__(self, results):

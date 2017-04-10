@@ -84,7 +84,7 @@ class PerformanceMonitorTests(TestCase):
             PerformanceMonitor
         )
 
-    @freeze_time("2015-11-10 14:45:22")
+    @freeze_time('2015-11-10 14:45:22')
     def test_set_clock(self):
         """
         PerformanceMonitor.set_clock - it should set the clock to the computer's time
@@ -104,7 +104,7 @@ class PerformanceMonitorTests(TestCase):
         """
         self.assertEqual(
             self.performance_monitor.get_manufacturer(),
-            "Concept2"
+            'Concept2'
         )
 
     def test_get_product(self):
@@ -114,7 +114,7 @@ class PerformanceMonitorTests(TestCase):
         """
         self.assertEqual(
             self.performance_monitor.get_product(),
-            "Concept2 Performance Monitor 3 (PM3)"
+            'Concept2 Performance Monitor 3 (PM3)'
         )
 
     def test_serial_number(self):
@@ -124,7 +124,7 @@ class PerformanceMonitorTests(TestCase):
         """
         self.assertEqual(
             self.performance_monitor.get_serial_number(),
-            "400124190"
+            '400124190'
         )
 
     def test_get_pm_version(self):
@@ -134,7 +134,7 @@ class PerformanceMonitorTests(TestCase):
         """
         self.assertEqual(
             self.performance_monitor.get_pm_version(),
-            "PM3"
+            'PM3'
         )
 
     def test_send_commands(self):

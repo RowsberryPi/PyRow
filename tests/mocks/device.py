@@ -17,7 +17,7 @@ class PM3(NonCallableMagicMock):
 
         self.__commands = []
 
-        self.serial_number = "400124190"
+        self.serial_number = '400124190'
 
         self.iManufacturer = 0x1
         self.iProduct = 0x2
@@ -45,13 +45,13 @@ class PM3(NonCallableMagicMock):
         :return:
         """
         if self.iManufacturer == key:
-            return "Concept2"
+            return 'Concept2'
         elif self.iProduct == key:
-            return "Concept2 Performance Monitor 3 (PM3)"
+            return 'Concept2 Performance Monitor 3 (PM3)'
         elif self.iSerialNumber == key:
-            return "400124190"
+            return '400124190'
 
-        raise Exception("Unknown descriptor: {0}".format(key))
+        raise Exception('Unknown descriptor: {0}'.format(key))
 
     def __getitem__(self, item):
         """

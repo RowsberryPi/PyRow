@@ -11,9 +11,9 @@ if __name__ == '__main__':
     # Connecting to erg
     ergs = list(PerformanceMonitor.find())
     if len(ergs) == 0:
-        exit("No ergs found.")
+        exit('No ergs found.')
     erg = PerformanceMonitor(ergs[0])
-    logging.info("Connected to erg.")
+    logging.info('Connected to erg.')
 
     # Create a dictionary of the different status states
     state = ['Error', 'Ready', 'Idle', 'Have ID', 'N/A', 'In Use',
@@ -40,11 +40,11 @@ if __name__ == '__main__':
         results = erg.send_commands(command)
         if cstate != (results['CSAFE_GETSTATUS_CMD'][0] & 0xF):
             cstate = results['CSAFE_GETSTATUS_CMD'][0] & 0xF
-            logging.debug("State %s: %s", str(cstate), state[cstate])
+            logging.debug('State %s: %s', str(cstate), state[cstate])
         if cstroke != results['CSAFE_PM_GET_STROKESTATE'][0]:
             cstroke = results['CSAFE_PM_GET_STROKESTATE'][0]
-            logging.debug("Stroke %s: %s", str(cstroke), stroke[cstroke])
+            logging.debug('Stroke %s: %s', str(cstroke), stroke[cstroke])
         if cworkout != results['CSAFE_PM_GET_WORKOUTSTATE'][0]:
             cworkout = results['CSAFE_PM_GET_WORKOUTSTATE'][0]
-            logging.debug("Workout %s: %s", str(cworkout), workout[cworkout])
+            logging.debug('Workout %s: %s', str(cworkout), workout[cworkout])
         time.sleep(1)

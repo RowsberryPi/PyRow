@@ -30,10 +30,10 @@ class CsafeCmd(MagicMock):
         :return []:
         """
         if self.read_call_count >= len(self.__responses):
-            raise Exception("Not enough mocked responses")
+            raise Exception('Not enough mocked responses')
         response = self.__responses[self.read_call_count]
         self.read_call_count += 1
-        logging.debug("Read: %s", response)
+        logging.debug('Read: %s', response)
         return response
 
     def write(self, commands):
@@ -41,5 +41,5 @@ class CsafeCmd(MagicMock):
         :param commands:
         :return:
         """
-        logging.debug("Write: %s", commands)
+        logging.debug('Write: %s', commands)
         return []

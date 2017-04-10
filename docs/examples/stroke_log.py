@@ -13,10 +13,10 @@ if __name__ == '__main__':
     # Connecting to erg
     ergs = list(PerformanceMonitor.find())
     if len(ergs) == 0:
-        exit("No ergs found.")
+        exit('No ergs found.')
 
     erg = PerformanceMonitor(ergs[0])
-    logging.info("Connected to erg")
+    logging.info('Connected to erg')
 
     # Open and prepare file
     write_file = open('workout.csv', 'w')
@@ -24,11 +24,11 @@ if __name__ == '__main__':
 
     # Loop until workout has begun
     workout = erg.get_workout()
-    logging.info("Waiting for workout to start.")
+    logging.info('Waiting for workout to start.')
     while workout.get_status() == 0:
         time.sleep(1)
         workout = erg.get_workout()
-    logging.info("Workout has begun")
+    logging.info('Workout has begun')
 
     # Loop until workout ends
     while workout.get_status() == 1:
@@ -53,14 +53,14 @@ if __name__ == '__main__':
         force.extend(forceplot.get_force_plot())
 
         # Write data to write_file
-        workoutdata = str(monitor.get_time()) + "," + str(monitor.get_distance()) + "," + \
-            str(monitor.get_spm()) + "," + str(monitor.get_pace()) + ","
+        workoutdata = str(monitor.get_time()) + ',' + str(monitor.get_distance()) + ',' + \
+            str(monitor.get_spm()) + ',' + str(monitor.get_pace()) + ','
 
-        forcedata = ",".join([str(f) for f in force])
+        forcedata = ','.join([str(f) for f in force])
         write_file.write(workoutdata + forcedata + '\n')
 
         # Get workout conditions
         workout = erg.get_workout()
 
     write_file.close()
-    logging.info("Workout has ended.")
+    logging.info('Workout has ended.')

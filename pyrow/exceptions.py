@@ -23,7 +23,7 @@ class BadStateException(Exception):
         """
         :return string:
         """
-        return "{0} has state: {1}".format(self.__device.get_serial_number(), self.__state)
+        return '{0} has state: {1}'.format(self.__device.get_serial_number(), self.__state)
 
 
 class RetryLimitException(Exception):
@@ -43,4 +43,4 @@ class RetryLimitException(Exception):
         """
         :return string:
         """
-        return "Retry limit reached, waiting for {0}".format(self.__waiting_for)
+        return 'Retry limit reached, waiting for {0}'.format(self.__waiting_for)

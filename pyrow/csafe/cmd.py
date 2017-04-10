@@ -17,7 +17,7 @@ class CsafeCmd:
         :return:
         """
         if not 0 <= integer <= 2 ** (8 * num_bytes):
-            logging.warning("Integer is outside the allowable range.")
+            logging.warning('Integer is outside the allowable range.')
 
         byte = []
         for k in range(num_bytes):
@@ -46,7 +46,7 @@ class CsafeCmd:
         :param raw_bytes:
         :return:
         """
-        word = ""
+        word = ''
         for letter in raw_bytes:
             word += chr(letter)
 
@@ -148,7 +148,7 @@ class CsafeCmd:
 
         # Check for frame size (96 bytes)
         if len(message) > 96:
-            logging.warning("Message is too long: %d", len(message))
+            logging.warning('Message is too long: %d', len(message))
 
         # Report IDs
         max_message = max(len(message) + 1, max_response)
@@ -163,10 +163,10 @@ class CsafeCmd:
             message.insert(0, 0x02)
             message += [0] * (121 - len(message))
             if max_response > 121:
-                logging.warning("Response may be too long to receive. "
-                                "Max possible length: %d", max_response)
+                logging.warning('Response may be too long to receive. '
+                                'Max possible length: %d', max_response)
         else:
-            logging.error("Message too long. Message length: %d", len(message))
+            logging.error('Message too long. Message length: %d', len(message))
             message = []
 
         return message
@@ -195,7 +195,7 @@ class CsafeCmd:
 
         # Checks checksum
         if checksum != 0:
-            logging.error("Checksum error")
+            logging.error('Checksum error')
             return []
 
         # Remove checksum from  end of message
@@ -224,7 +224,7 @@ class CsafeCmd:
         elif start_flag == const.STANDARD_FRAME_START_FLAG:
             j = 2
         else:
-            logging.error("No Start Flag found.")
+            logging.error('No Start Flag found.')
             return []
 
         while j < len(transmission):
@@ -235,7 +235,7 @@ class CsafeCmd:
             j += 1
 
         if not stop_found:
-            logging.error("No Stop Flag found.")
+            logging.error('No Stop Flag found.')
             return []
 
         message = CsafeCmd.__check_message(message)
@@ -283,7 +283,7 @@ class CsafeCmd:
 
             # Checking that the received data byte is the expected length, sanity check
             if abs(sum(msg_prop[1])) != 0 and byte_count != abs(sum(msg_prop[1])):
-                logging.warning("byte_count is an unexpected length")
+                logging.warning('byte_count is an unexpected length')
 
             # Extract values
             for num_bytes in msg_prop[1]:
