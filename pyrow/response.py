@@ -147,7 +147,7 @@ class Response(object):  # pylint: disable=R0904
             try:
                 return self.__results['CSAFE_PM_GET_STROKESTATE'][0]
             except IndexError:
-                return None
+                return -999
         return None
 
     def get_stroke_distance(self):
@@ -156,7 +156,7 @@ class Response(object):  # pylint: disable=R0904
             try:
                 return self.__results['CSAFE_PM_GET_STROKESTATE'][0] // 100
             except IndexError:
-                return None
+                return -999
         return None
 
     def get_stroke_drive_time(self):
@@ -165,7 +165,7 @@ class Response(object):  # pylint: disable=R0904
             try:
                 return self.__results['CSAFE_PM_GET_STROKESTATE'][1] * 10
             except IndexError:
-                return None
+                return -999
         return None
 
     def get_stroke_recovery_time(self):
@@ -174,7 +174,7 @@ class Response(object):  # pylint: disable=R0904
             try:
                 return self.__results['CSAFE_PM_GET_STROKESTATE'][2] * 10
             except IndexError:
-                return None
+                return -999
         return None
 
     def get_stroke_length(self):
@@ -183,7 +183,7 @@ class Response(object):  # pylint: disable=R0904
             try:
                 return self.__results['CSAFE_PM_GET_STROKESTATE'][3] // 100
             except IndexError:
-                return None
+                return -999
         return None
 
     def get_stroke_count(self):
@@ -192,7 +192,7 @@ class Response(object):  # pylint: disable=R0904
             try:
                 return self.__results['CSAFE_PM_GET_STROKESTATE'][4]
             except IndexError:
-                return None
+                return -999
         return None
 
     def get_stroke_peak_force(self):
@@ -201,7 +201,7 @@ class Response(object):  # pylint: disable=R0904
             try:
                 return self.__results['CSAFE_PM_GET_STROKESTATE'][5] // 100
             except IndexError:
-                return None
+                return -999
         return None
 
     def get_impulse_force(self):
@@ -210,7 +210,7 @@ class Response(object):  # pylint: disable=R0904
             try:
                 return self.__results['CSAFE_PM_GET_STROKESTATE'][6] // 100
             except IndexError:
-                return None
+                return -999
         return None
 
     def get_stroke_average_force(self):
@@ -219,16 +219,16 @@ class Response(object):  # pylint: disable=R0904
             try:
                 return self.__results['CSAFE_PM_GET_STROKESTATE'][7] // 100
             except IndexError:
-                return None
+                return -999
         return None
 
     def get_work_per_stroke(self):
-        """Returns teh work per stroke in Joules"""
+        """Returns the work per stroke in Joules"""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
             try:
                 return self.__results['CSAFE_PM_GET_STROKESTATE'][8]
             except IndexError:
-                return None
+                return -999
         return None
 
     def get_user_id(self):
