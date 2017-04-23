@@ -207,7 +207,7 @@ class Response(object):  # pylint: disable=R0904
     def get_work_per_stroke(self):
         """Returns the work per stroke in Joules"""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
-            return self.__results['CSAFE_PM_GET_STROKESTATS'][8]
+            return self.__results['CSAFE_PM_GET_STROKESTATS'][8] // 100
 
         return None
 
