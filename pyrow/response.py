@@ -154,7 +154,7 @@ class Response(object):  # pylint: disable=R0904
         """Returns the stroke distance in meters."""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
             try:
-                return self.__results['CSAFE_PM_GET_STROKESTATE'][0] // 100
+                return self.__results['CSAFE_PM_GET_STROKESTATS'][0] // 100
             except IndexError:
                 return -999
         return None
@@ -163,7 +163,7 @@ class Response(object):  # pylint: disable=R0904
         """Returns the stroke drive time in milliseconds."""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
             try:
-                return self.__results['CSAFE_PM_GET_STROKESTATE'][1] * 10
+                return self.__results['CSAFE_PM_GET_STROKESTATS'][1] * 10
             except IndexError:
                 return -999
         return None
@@ -172,7 +172,7 @@ class Response(object):  # pylint: disable=R0904
         """Returns the stroke recovery time in milliseconds."""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
             try:
-                return self.__results['CSAFE_PM_GET_STROKESTATE'][2] * 10
+                return self.__results['CSAFE_PM_GET_STROKESTATS'][2] * 10
             except IndexError:
                 return -999
         return None
@@ -181,7 +181,7 @@ class Response(object):  # pylint: disable=R0904
         """Returns the stroke length in meters"""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
             try:
-                return self.__results['CSAFE_PM_GET_STROKESTATE'][3] // 100
+                return self.__results['CSAFE_PM_GET_STROKESTATS'][3] // 100
             except IndexError:
                 return -999
         return None
@@ -190,7 +190,7 @@ class Response(object):  # pylint: disable=R0904
         """Returns the stroke count"""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
             try:
-                return self.__results['CSAFE_PM_GET_STROKESTATE'][4]
+                return self.__results['CSAFE_PM_GET_STROKESTATS'][4]
             except IndexError:
                 return -999
         return None
@@ -199,7 +199,7 @@ class Response(object):  # pylint: disable=R0904
         """Returns the stroke peak force in Newtons"""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
             try:
-                return self.__results['CSAFE_PM_GET_STROKESTATE'][5] // 100
+                return self.__results['CSAFE_PM_GET_STROKESTATS'][5] // 100
             except IndexError:
                 return -999
         return None
@@ -208,7 +208,7 @@ class Response(object):  # pylint: disable=R0904
         """Returns the stroke impulse force in kg m/s"""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
             try:
-                return self.__results['CSAFE_PM_GET_STROKESTATE'][6] // 100
+                return self.__results['CSAFE_PM_GET_STROKESTATS'][6] // 100
             except IndexError:
                 return -999
         return None
@@ -217,7 +217,7 @@ class Response(object):  # pylint: disable=R0904
         """Returns the stroke average force in Newtons"""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
             try:
-                return self.__results['CSAFE_PM_GET_STROKESTATE'][7] // 100
+                return self.__results['CSAFE_PM_GET_STROKESTATS'][7] // 100
             except IndexError:
                 return -999
         return None
@@ -226,7 +226,7 @@ class Response(object):  # pylint: disable=R0904
         """Returns the work per stroke in Joules"""
         if 'CSAFE_PM_GET_STROKESTATS' in list(self.__results.keys()):
             try:
-                return self.__results['CSAFE_PM_GET_STROKESTATE'][8]
+                return self.__results['CSAFE_PM_GET_STROKESTATS'][8]
             except IndexError:
                 return -999
         return None
