@@ -230,12 +230,12 @@ class Response(object):  # pylint: disable=R0904
     def get_workout_state(self):
         if 'CSAFE_PM_GET_WORKOUTSTATE' in list(self.__results.keys()):
             return self.__results['CSAFE_PM_GET_WORKOUTSTATE'][0]
-        return None
+        return 0
 
     def get_workout_int_type(self):
         if 'CSAFE_PM_GET_INTERVALTYPE' in list(self.__results.keys()):
             return self.__results['CSAFE_PM_GET_INTERVALTYPE'][0]
-        return None
+        return 0
 
     def get_workout_int_count(self):
         if 'CSAFE_PM_GET_WORKOUTINTERVALCOUNT' in list(self.__results.keys()):
